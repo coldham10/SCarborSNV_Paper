@@ -1,65 +1,14 @@
-\begin{thebibliography}{10}
-
-\bibitem{monovar}
-Hamim Zafar, Yong Wang, Luay Nakhleh, Nicholas Navin, and Ken Chen.
-\newblock Monovar: single-nucleotide variant detection in single cells.
-\newblock {\em Nature methods}, 13(6):505, 2016.
+\begin{thebibliography}{1}
 
 \bibitem{sciphi}
 Jochen Singer, Jack Kuipers, Katharina Jahn, and Niko Beerenwinkel.
 \newblock Single-cell mutation identification via phylogenetic inference.
 \newblock {\em Nature communications}, 9(1):5144, 2018.
 
-\bibitem{gao2016punctuated}
-Ruli Gao, Alexander Davis, Thomas~O McDonald, Emi Sei, Xiuqing Shi, Yong Wang,
-  Pei-Ching Tsai, Anna Casasent, Jill Waters, Hong Zhang, et~al.
-\newblock Punctuated copy number evolution and clonal stasis in triple-negative
-  breast cancer.
-\newblock {\em Nature genetics}, 48(10):1119, 2016.
-
-\bibitem{21breasts}
-Serena Nik-Zainal, Peter Van~Loo, David~C Wedge, Ludmil~B Alexandrov,
-  Christopher~D Greenman, King~Wai Lau, Keiran Raine, David Jones, John
-  Marshall, Manasa Ramakrishna, et~al.
-\newblock The life history of 21 breast cancers.
-\newblock {\em Cell}, 149(5):994--1007, 2012.
-
-\bibitem{scprimer}
-Tal Nawy.
-\newblock Single-cell sequencing.
-\newblock {\em Nature methods}, 11(1):18, 2013.
-
-\bibitem{neutralevoltumour}
-Marc~J Williams, Benjamin Werner, Chris~P Barnes, Trevor~A Graham, and Andrea
-  Sottoriva.
-\newblock Identification of neutral tumor evolution across cancer types.
-\newblock {\em Nature genetics}, 48(3):238, 2016.
-
-\bibitem{metastatic}
-Gunes Gundem, Peter Van~Loo, Barbara Kremeyer, Ludmil~B Alexandrov, Jose~MC
-  Tubio, Elli Papaemmanuil, Daniel~S Brewer, Heini~ML Kallio, Gunilla
-  H{\"o}gn{\"a}s, Matti Annala, et~al.
-\newblock The evolutionary history of lethal metastatic prostate cancer.
-\newblock {\em Nature}, 520(7547):353, 2015.
-
-\bibitem{numcells}
-Ugo Del~Monte.
-\newblock Does the cell number $10^9$ still really fit one gram of tumor
-  tissue?
-\newblock {\em Cell Cycle}, 8(3):505--506, 2009.
-
-\bibitem{yachida}
-Shinichi Yachida, Si{\^a}n Jones, Ivana Bozic, Tibor Antal, Rebecca Leary,
-  Baojin Fu, Mihoko Kamiyama, Ralph~H Hruban, James~R Eshleman, Martin~A Nowak,
-  et~al.
-\newblock Distant metastasis occurs late during the genetic evolution of
-  pancreatic cancer.
-\newblock {\em Nature}, 467(7319):1114, 2010.
-
-\bibitem{ledurbin}
-Si~Quang Le and Richard Durbin.
-\newblock {SNP} detection and genotyping from low-coverage sequencing data on
-  multiple diploid samples.
-\newblock {\em Genome research}, 21(6):952--960, 2011.
+\bibitem{BSA}
+Richard Durbin, Sean~R Eddy, Anders Krogh, and Graeme Mitchison.
+\newblock {\em Biological sequence analysis: probabilistic models of proteins
+  and nucleic acids}.
+\newblock Cambridge university press, 1998.
 
 \end{thebibliography}
