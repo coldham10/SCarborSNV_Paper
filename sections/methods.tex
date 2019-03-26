@@ -2,22 +2,22 @@
 
 \begin{document}
 
-%\subfile{sections/submethods/method_introduction}
+\subfile{sections/submethods/method_introduction}
 
 \subsection{Preprocessing and parallelism}
-%\subfile{sections/submethods/preprocess}
+\subfile{sections/submethods/preprocess}
 
 \subsection{Cell genotype likelihoods}
-%\subfile{sections/submethods/cell_likelihoods}
+\subfile{sections/submethods/cell_likelihoods}
 
 \subsection{Mutated site priors}
-%\subfile{sections/submethods/mutated_priors}
+\subfile{sections/submethods/mutated_priors}
 
 \subsection{Welltype site priors}
-%\subfile{sections/submethods/well_priors}
+\subfile{sections/submethods/well_priors}
 
 \subsection{Variant candidate site calling}
-%\subfile{sections/submethods/site_calling}
+\subfile{sections/submethods/site_calling}
 
 \subsection{Building a cell phylogeny}
 \subfile{sections/submethods/phylo1}
@@ -27,10 +27,10 @@ is this necessary? Overall mutation rate, $P(H_t\mid H),\,P(H),\,\lambda,\,P(SNP
 To some extent can be derived from papers like 21 breasts and metastatic. Can be reestimated?\\
 do we just reestimate parameters or update priors on cell loci? updating priors could be fun, but maybe wait til completed to see if it brings additional benefit.\\
 
-\subsection{Mutation tree inference}
-Pairwise test from cell tree. Maximum parsimony inspired? Minimal way to create perfect phylogeny from cell phylogeny?
 \subsection{Genotyping single cells}
-Use probabilistic mutation tree as a prior, DFS
+\subfile{sections/submethods/inference}
+
+
 \subsection{Additional computational methods}
 Stirlings approximation for $T(a,b)$. Pre computation /memoization of priors where possible. Log space.
 
