@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{subfiles}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage[font=small, width=\textwidth,margin=3em]{caption}
+\usepackage{cite}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+\title{SCarborSNV: Efficient phylogeny-aware single nucleotide variant detection for single cells}
+\author{Christopher Oldham}
+\date{January 2019}
+
+\begin{document}
+
+\maketitle
+\subfile{sections/abstract}
+
+\section{Introduction}
+\subfile{sections/introduction}
+
+\section{Methods}
+\subfile{sections/methods}
+
+\section{Results}
+\section{Discussion}
+
+Two methods for leaves affected: power law and uniform branches. Uniform branches (sciphi) used for sampled vs power law for considering whole tumour. Cannot use power law for sample? Why? Why not?
+
+
+
+
+
+
+
+
+
+\newpage
+\bibliography{SNVite}{}
+%\bibliographystyle{plain}
+\bibliographystyle{unsrt}
+
+\newpage
+\appendix
+\section{Clonal mutations and aneuploidy}
+P(clonal): average of counts in those papiers\\
+P(H) = 0.9 because according to Gao 90\% of all tumours are aneuploid hence $(1-0.91)^{24}\approx 0.1$ assuming 24 chromosomes are independent. This assumes all aneuploid are haplod... maybe /2? High $P(H)$ could lead to FP errors... Or would it? remember we want to find homozygous variants.
+\section{Parameter tuning}
+Grid search, geometric ?? Do we do this or use empirical values?
+\end{document}
+
+%After done with algorithm: simulator! Real data results, efficiency comparison, introduction and discussion... Poster? Style, change from we to factual voice? dbSNP and missing data?? Account for different read depths? likelihood for single read much greater than that for multi: so maybe normalize each?

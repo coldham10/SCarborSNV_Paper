@@ -1,0 +1,5 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+Our method of identifying SNVs begins with computing the likelihood of observing the sequencing data for each cell and each locus independently, given all possible underlying genotypes. From these likelihoods and phylogeny aware priors we determine the posterior probability that each locus contains a mutation: pooling the data across cells to select only those loci of interest. The calculation of priors uses asymptotic aproximations and dynamic programming to further improve efficiency. We then use a neighbour joining algorithm to quickly reconstruct a phylogeny of the single cells. (MAYBE:) We then use this tree to re-estimate the frequencies of certain in vivo, in vitro and in silico (?) artifacts in the data, such as loss of heterozygosity (LOH) and allelic dropout (ADO). We then reconstruct a cell tree with these updated values using neighbour joining and derive from it a mutation tree (how??). We perform a search on this tree to impute missing mutations within cells (?) and reject unlikely mutations as false positives... This needs some work. Kim and Simon or Le and durbin
+\end{document}
