@@ -1,0 +1,13 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+The most accurate phylogenetic structure of the sampled tumour cells could be found by searching through the entire tree space and finding a tree that maximizes likelihood or posterior probability. If $s$ mutant sites are called in the previous step there are $(2m-3)!!(2m-1)^s$ trees in the search space making this approach infeasible, leading a previous phylogeny aware approach to adopt a more efficient Markov chain Monte Carlo (MCMC) algorithm. Even this more efficient approach, however, can be quite slow, with an approximate runtime of $O(nm^3\log(m))$~\cite{sciphi}.
+
+Instead, we use a simple neighbour-joining algorithm to quickly infer a cell phylogeny.\\
+
+For now, build tree based just on cell likelihoods. Later update this to posteriors based on site posteriors. The ``proper" way can be found in monovar under ``Genotyping of sigle cells". Another way could be to sum over sigma with some simple formula like binomial (implies certain non existant independence).\\
+
+Is there a way to use the DP values? frequency based?\\
+
+%TODO workout actual runtimes to see how much this saves..
+\end{document}

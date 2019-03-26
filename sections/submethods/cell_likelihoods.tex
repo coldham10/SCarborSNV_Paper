@@ -1,0 +1,59 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+
+Calculate genotype likelihoods for each cell $j$ at each locus $i$. We assume independence between sites.
+\subsubsection*{Homozygous genotypes}
+\begin{itemize}
+    \item Let $g\in\{0,1,2\}$ be the unphased genotype of a locus designated by the number of non-reference alleles. For homozygous genotypes (that is, $g\in\{0,2\}$) We generally assume reads to be independent:
+    \begin{equation}
+        P(D_{ij}\mid g) = \prod_{k=1}^n P(d_{ijk} \mid g)
+    \end{equation}
+    Note $D_{ij}=(\vec{r},\vec{e})$, where $\vec{r}$ are the $n$ reads at this nucleotide and this cell. $\vec{e}$ are the associated probabilities of read error, derived from the phred quality scores.\\
+    \item Marginalizing on sequencing error:
+    \begin{equation*}
+        P(d_k \mid g) =  P(r_k,\,se \mid g) + P(r_k,\,\neg se \mid g)
+    \end{equation*}
+    \item Since errors can occur during amplification or sequencing, we model an "intermediate allele", denoted $\beta$ that is amplified from the original nucleotide with some probability of error~\cite{monovar}. Trivially:
+    \begin{equation*}
+        P(r_k,\,\neg se \mid g) = P(r_k\mid \neg se ,\, g)(1-e_k)=P(\beta_k=r_k\mid g)(1-e_k) 
+    \end{equation*}
+    We similarly see:
+    \begin{equation*}
+        P(r_k,\, se \mid g) = P(r_k\mid se,\, g)e_k
+    \end{equation*}
+    Furthermore:
+    \begin{equation*}
+        P(r_k\mid se,\, g) = P(r_k\mid \beta_k\neq r_k,\,se,\,g) P(\beta_k\neq r_k \mid se,\,g)
+    \end{equation*}
+     Assuming (?) an error in sequencing the intermediate allele could produce any of the other three alleles with equal probability we find $P(r_k\mid \beta_k \neq r_k,\,se,g)=1/3$. Since the amplification of $\beta$ is unaffected by sequencing $P(\beta_k\neq r_k \mid se,\,g)=P(\beta_k\neq r_k\mid g)=1-P(\beta_k=r_k\mid g)$. We therefore have:
+     \begin{equation*}
+         P(r_k, se \mid g) = e_k \frac{1}{3}\left[1-P(\beta_k=r_k\mid g)\right]
+     \end{equation*}
+     \item Finally the likelihood $P(D_{ij}\mid g)$ for cell at a locus for a homozygous genotype is:
+     \begin{equation}
+          P(D_{ij}\mid g) = \prod_{k=1}^n \left[ (1-e_k)P(\beta_k=r_k\mid g) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g)) \right]
+     \end{equation}
+\end{itemize}
+\subsubsection*{Heterozygous genotypes and allelic dropout}
+\begin{itemize}
+     \item For the heterozygous case, we must account for the possibility of allelic dropout (ADO)~\cite{monovar,sciphi}. Therefore:
+     \begin{equation*}
+         P(D_{ij}\mid g=1) = P(D_{ij}, \text{ADO} \mid g=1)+ P(D_{ij}, \neg \text{ADO}\mid g=1)
+     \end{equation*}
+     Letting $P_{ADO}$ be the probability of an a dropout event, this expands to:
+     \begin{equation*}
+         P(D_{ij}\mid g=1) = P_{ADO}P(D_{ij}\mid \text{ADO},\, g=1) + (1-P_{ADO})P(D_{ij} \mid \neg \text{ADO},\, g=1)
+     \end{equation*}
+     In the result of an allelic dropout from a heterozygous locus, only one allele will remain after the amplification process and hence the likelihood $P(D_{ij}\mid \text{ADO},\, g=1)$ will resemble the homozygous case. We assume allelic dropout can affect either  allele with equal probability and hence:
+     \begin{equation*}
+         P(D_{ij}\mid \text{ADO},\, g=1) =\frac{1}{2}P(D_{ij}\mid g=0) + \frac{1}{2}P(D_{ij}\mid g=2)
+     \end{equation*}
+     For the case without allelic dropout, the form of the likelihood is identical to the homozygous case:
+     \begin{equation*}
+           P(D_{ij}\mid \neg\text{ADO},\,g=1) = \prod_{k=1}^n \left[ (1-e_k)P(\beta_k=r_k\mid g=1) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g=1)) \right]
+     \end{equation*}
+\end{itemize}
+%NOTE: for thesis good to include all calculation but for paper should probably just cite monovar
+
+\end{document}
