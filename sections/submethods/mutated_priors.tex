@@ -22,7 +22,7 @@ We initially set the value of $P(H)$ to .09 (See Appendix A). In the simplest ca
 P(\sigma\mid\text{SNV}_T,\neg H) = \begin{cases} \frac{2m-1}{2(m-1)} T(m,\sigma) \qquad 0<\sigma< m\\ 0 \qquad \qquad \quad \text{else}\end{cases}
 \end{equation*}
 Where $T(m,\sigma)$ is the prior developed by Singer, Kuipers et al. that assumes a mutation may occur on any branch of the sampled subtree with equal probability.
-\begin{equation}
+\begin{equation}\label{eq:T}
 T(a,b)=\frac{\binom{a}{b}^2}{(2b-1)\binom{2a}{2b}}
 \end{equation}
 Now let us consider the case where both a sSNV and a haploid event have both occured at a locus. Since the haploid mutation may have occured in the subtree or ancestral to the subtree, we model these cases seperately.

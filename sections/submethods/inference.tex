@@ -1,5 +1,31 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-Test
+%TODO should we marginalize on P(\sigma)? all the same except consider configurations that provide same sigma together and give p(e,e_LOH)=P(e,e_LOH|sigma)p(sigma) where P(e, e_LOH|sigma) is pi*pi/sum(pi*pi where sigma)
+Once a cell tree, $T$, has been built, individual cell genotypes can be inferred from the phylogeny directly. This will give our final estimate for genotype probabilities.
+\begin{equation*}
+P(g_{ij}\mid D_i, T) = (1-P(\sigma=0))\sum_{e\in E} \left[ P(g_{ij}\mid e, T, D_i)P(e\mid T, D_i) \right] + P(\sigma = 0)P(g_{ij}\mid\sigma=0)
+\end{equation*}
+%TODO this is not really how we do it below
+where $E$ is the set of all edges in the rooted tree.
+
+\subsubsection*{Inferring SNVs}
+To begin with, we compute the probabilities for all descendents of each node having the same genotype: $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ being the probability that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate respectively. These values are taken to be
+\begin{equation*}
+\pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
+\end{equation*}
+where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$. We also compute a fouth value, $\pi_m(e)$ defined as the probability that all descendents of $e$ have genotype 1 or 2. These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch. Assuming the site contains a mutation and no loss of heterozygosity, the probability that the mutation occured on branch $e$ is given by:
+\begin{equation} \label{eq:edgemutpost}
+P(e\mid T, D_i) = \frac{\pi_m(e)(\pi_0(r)/\pi_0(e))P(e)}{\sum_{e'\in E}\pi_m(e')(\pi_0(r)/\pi_0(e))P(e')} = \frac{d_e\pi_m(e)/\pi_0(e)}{\sum_{e'\in E} d_{e'}\pi_m(e')/\pi_0(e')}
+\end{equation}
+where $r$ is the root edge and hence $\pi_0(r)/\pi_0(e)$ is a product of probabilities over only those cells that do not descend from $e$. The prior probability of an edge containing a mutation is given by the normalized edge length:
+\begin{equation*}
+P(e) = \frac{d_e}{\sum_{e'} d_{e'}}
+\end{equation*}
+%TODO is this suitable with jukes cantor, or should I use just $\overline{p}$ for distance? might need an exponential or smth.
+A very large portion of mutations will likely be either germline or clonal, however we also expect the root node to be directly above the longest edge. The probability $P(SNV_j\mid e)$, the probability that cell has an ancestral mutation at the current site given there is a mutation at edge $e$ is exactly 1 if $c_j \succ e$ and 0 otherwise. Traversing the $2m-1$ tree edges and computing the marginal probabilities $P(SNV_j\mid e)$ for $m$ cells at each results in $2m^2-m$ probabilities being calculated at each site. Since $\pi_m, \pi_0$ are pre computed and the denominator in Equation~\ref{eq:edgemutpost} needs only to be calculated once per site, the asymptotic complexity of computing these probabilities for one site is $O(m^2)$.
+\subsubsection*{Inferring Loss of HeteroZygosity}
+%TODO Is this bullshit? I am tired! : The probability of deviations from heterozygosity can be calculated in much the same way, however we must also account for both ploidy changes and the comparatively high rate of homozygous germline mutations. 
+%TODO oh wait... cant work out switch to homo if e.g. some cells affected then LOH as those beneath LOH will have g=0, those between will have g=1 and those outside will have g=0... Same with any case where both happen in tree... I don't wanna make it m^3 :( Wait, how is this a problem? Because SNV point is not fixed so working out probabilities requires moving SNV and LOH simultaneously: m^3. Can we leverage p_m(e)? or similar? Case for losing reference is easy, P(L_e\mid T, D_i) = p(e is mutated)*p(desc e are homozygous mutant)*p(others are not homozygous mutant) [requires new \pi val but ok]. Losing alt is harder. For a start cannot include leaves (that's ADO). Also no simple way to differentiate between wt and lost alt. UNLESS for each cell p(lost alt) = p(SNV|T)[from last step] * p(g=0) from two steps ago. P(not lost alt) = 1-p(lost alt)
+
 \end{document}
