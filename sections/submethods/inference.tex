@@ -1,8 +1,7 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-<<<<<<< HEAD
-=======
+
 Assuming the tree created above is accurate, we now seek to infer genotypes from this phylogeny so as to overcome errors and noise associated with low coverage SCS data. We first determine weights for attaching point mutation and different types of LOH events to different edges of the tree, and then use these weights to determine genotype probabilities for each cell.
 \subsubsection{SNV weights}
 To begin with, we compute the probabilities of all descendents of each node having the same genotype: $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate respectively. These values are taken to be
@@ -89,6 +88,6 @@ Other stuff: normalize probs if need, either call max prob or filter.
 %\subsubsection*{Inferring Loss of Alternate Allele}
 %%TODO remember to not include leaves
 %%TODO this whole algorithm may be bullshit and there could be a better way using BFS and keeping track of marginal probabilities along the way...
->>>>>>> 5402e44a756e22b4cebf676bedd6dfb91bd60527
+
 
 \end{document}
