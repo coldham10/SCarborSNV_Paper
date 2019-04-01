@@ -1,0 +1,39 @@
+\documentclass[../../main.tex]{subfiles}
+
+\begin{document}
+Instead of $d_e$, we should likely use $1-\exp (-\frac{4}{3} d_e)$ as it should be proportional to the frequency with which sites between two cells differ.
+\subsubsection{SNV weights}
+To begin with, we compute the probabilities of all descendents of each node having the same genotype: $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate respectively. These values are taken to be
+\begin{equation*}
+\pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
+\end{equation*}
+where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$, and $P(g_j =g)$ are the posterior probabilities calculated in Equation~\eqref{eq:sitebayes}. We also compute one more values, $\pi_\mu(e)$, defined as the probability that all descendents of $e$ have genotype 1 or 2. These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch. In the case of a point mutation but no loss of heterozygosity, the weight given to attaching a point mutation at edge $e$ is given by:
+\begin{equation} \label{eq:edgemutpost}
+W(S_e) = \frac{\pi_\mu(e)\left[\pi_0(\rho)/\pi_0(e)\right]P(S_e)}{\sum_{e'\in E}\pi_\mu(e')\left[\pi_0(\rho)/\pi_0(e)\right]P(S_e')} = \frac{d_e\pi_\mu(e)/\pi_0(e)}{\sum_{e'\in E} d_{e'}\pi_\mu(e')/\pi_0(e')}
+\end{equation}
+
+%TODO *1 could have W just be the numerator and dive later for simplicity. Maybe as an appendix prove via bayes that normalised it becomes a prob
+where $\rho$ represents the root edge and hence $\pi_0(\rho)/\pi_0(e)$ is a product of probabilities over only those cells that do not descend from $e$. The prior probability of an edge containing a mutation is taken to be the normalized edge length:
+\begin{equation*}
+P(S_e) = \frac{d_e}{\sum_{e'} d_{e'}}
+\end{equation*}
+%TODO shorten leaf edges to reduce mutations shared by only one cell? Monovar even excludes those completely (optionally), akin to making edge lengths 0 or excluding those e from E. We could also. Definitely for LOH
+%TODO to change weight to probability must include probability that no mutations in tree at all for this locus
+%NB while germline and clonal mutations are more likely, this should scale with root node length, so long as mutation frequency correlates to tree distance (it doesn't). But can convert!(?)
+%TODO from length definition may be better to use -exp{-d_e} (normalized) as a prior
+\subsubsection*{Weights For Loss of Heterozygosity}
+We try find conditional probability of each type of LOH \textbf{\textit{Assuming}} mutation above
+Idea: only cases 1 and 2 are complex. Case 3 can be modeled as a haploid full tree and case 4 is ignored. For cases 1 and 2 we can then work out conditional weights assuming mutation above the attachment points.\\[1em]
+For a loss of heterozygosity events, we calculate weights in a similar way. Referring to Figure~\ref{fig:treecases} above these weights are calculated for cases 1, 2 and 3 in the following way:
+\begin{equation*}
+W^{(1)}(S_{e_1},L_{e_2}) = \frac{\pi_0(e_2)\left[\pi_1(e_1)/\pi_1(e_2)\right]\left[\pi_0(\rho)/\pi_0(e_1)\right]P(S_{e_1})P(L_{e_2})}{\sum_{e'_1\in E-E_l}\sum_{e'_2\succeq e'_1}\pi_0(e'_2)\left[\pi_1(e'_1)/\pi_1(e'_2)\right]\left[\pi_0(\rho)/\pi_0(e'_1)\right]P(S_{e'_1})P(L_{e'_2})}
+\end{equation*}
+Are we looking to assume mutation and LOH type? No, these assume a specific configuration. Surely to get assumption of mutation must sum over all $e_1\preceq e_2$. There are $O(m)$ edges so computing $W^{(1)}$s takes $O(m^2)$ must then sum all with same $e_2$, $O(m)$ Ws for each val of $e_2$, $O(m)$ vals of $e_2$ so as long as algorithm done thoughtfully can get $O(m^2)$. To get conditional probs from these should normalize then *1/3
+\begin{equation*}
+W^{(2)}(S_{e_1},L_{e_2}) = \frac{\pi_2(e_2)\left[\pi_1(e_1)/\pi_1(e_2)\right]\left[\pi_0(\rho)/\pi_0(e_1)\right]P(S_{e_1})P(L_{e_2})}{\sum_{e'_1\in E-E_l}\sum_{e'_2\succeq e'_1}\pi_2(e'_2)\left[\pi_1(e'_1)/\pi_1(e'_2)\right]\left[\pi_0(\rho)/\pi_0(e'_1)\right]P(S_{e'_1})P(L_{e'_2})}
+\end{equation*}
+and
+\begin{equation*}
+W^{(3)}(S_e) = \frac{\pi_2(e)\left[\pi_0(\rho)/\pi_2(e)\right]P(S_e)}{\sum_{e'\in E-E_l}\pi_2(e')\left[\pi_0(\rho)/\pi_2(e')\right]P(S_e')}
+\end{equation*}
+\end{document}

@@ -2,21 +2,21 @@
 
 \begin{document}
 
-Compute priors for $m$ and store somewhere where all processes can read. (shared memory, file)\\[1em]
+Compute priors for $\sigma$ and store somewhere where all processes can read. (shared memory, file)\\[1em]
 Create unique identifiers for each cell. Each cell should be in own aligned BAM file.\\[1em]
 Pile up aligned BAMs on loci.
 \begin{itemize}
     \item Use Python's PySam pileup to iterate through columns (loci).
-    \item Workers pick up batches of 1000? loci. Since sites assumed to be independent (note: should they be?) synchronicity is not important if locus positions and cellIDs are tracked.
+    \item Workers pick up batches of 1000? loci. Since sites assumed to be independent synchronicity is not important if locus positions and cellIDs are tracked.
     \item Workers process batch through to genotype calculation so not all are on I/O at once.
     \item Return locus objects with cells' read and qual info at that locus.
 \end{itemize}
 \vspace{1em}
 Mark or discard indels and low/no coverage.\\[1em]
-Impute welltype from germline data.
+Impute welltype from germline data.(?)
 \begin{itemize}
     \item If germline VCF file provided, impute here
-    \item If no germline VCF, if cell consensus (likelihood threshold?) different than reference, impute
+    %\item If no germline VCF, if cell consensus (likelihood threshold?) different than reference, impute
     \item Optionally use dbSNP as prior for germline vs somatic mutation
 \end{itemize}
 

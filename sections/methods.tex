@@ -2,8 +2,8 @@
 
 \begin{document}
 
-\subfile{sections/submethods/method_introduction}
-
+%\subfile{sections/submethods/method_introduction}
+TODO: Polish method introduction
 \subsection{Preprocessing and parallelism}
 \subfile{sections/submethods/preprocess}
 
@@ -32,6 +32,7 @@
 %do we just reestimate parameters or update priors on cell loci? updating priors could be fun, but maybe wait til completed to see if it brings additional benefit.\\
 %E.g. for each site: likelihood clonal = $\prod_j^m 1-P(g=0)$. (?) If likelihood clonal > likelihood not clonal, add 1 to clonal count. count/n = new prior on clonal mutations. Can do similar ML/EM estimations for all params, get new priors, re estimate posteriors.... Do at end. Note with new priors do not have to redo DP, as memoized values do not change(?)
 %TODO implement this if necessary and if time permits
+%TODO to estimate params post sampling candidates, can just use expectation from posteriors. E.g. P(SNV)/site = average 1-P(sig=0). P(LOH) at site = 3*p(g=2) at site = 3*[1-\prod_j[p(g_j=0)+p(g_j=1)]
 
 \subsection{Genotyping single cells}
 \subfile{sections/submethods/inference}

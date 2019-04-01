@@ -23,12 +23,14 @@
 \subfile{sections/abstract}
 
 \section{Introduction}
-\subfile{sections/introduction}
+%\subfile{sections/introduction}
+TODO: Fix introduction
 
 \section{Methods}
 \subfile{sections/methods}
 
 \section{Results}
+Include complexity analysis
 \section{Discussion}
 
 Two methods for leaves affected: power law and uniform branches. Uniform branches (sciphi) used for sampled vs power law for considering whole tumour. Cannot use power law for sample? Why? Why not?\\
@@ -45,11 +47,9 @@ Overall question: is $O(nm^3)$ good enough at all stages? (No!) asymptotically o
 
 \newpage
 \appendix
-\section{Clonal mutations and aneuploidy}
-P(clonal): average of counts in those papiers\\
-P(H) = 0.9 because according to Gao 90\% of all tumours are aneuploid hence $(1-0.91)^{24}\approx 0.1$ assuming 24 chromosomes are independent. This assumes all aneuploid are haplod... maybe /2? High $P(H)$ could lead to FP errors... Or would it? remember we want to find homozygous variants.
-\section{Initial Parameter tuning}
-Grid search, geometric ?? Do we do this or use empirical values?
+\subfile{sections/appendix}
+
+
 \end{document}
 
 %After done with algorithm: simulator! Real data results, efficiency comparison, introduction and discussion... Poster? Style, change from we to factual voice? dbSNP and missing data?? Account for different read depths? likelihood for single read much greater than that for multi: so maybe normalize each?

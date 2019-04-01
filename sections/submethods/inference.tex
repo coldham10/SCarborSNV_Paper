@@ -9,85 +9,83 @@ To begin with, we compute the probabilities of all descendents of each node havi
 \pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
 \end{equation*}
 where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$, and $P(g_j =g)$ are the posterior probabilities calculated in Equation~\eqref{eq:sitebayes}. We also compute one more values, $\pi_\mu(e)$, defined as the probability that all descendents of $e$ have genotype 1 or 2. These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch. In the case of a point mutation but no loss of heterozygosity, the weight given to attaching a point mutation at edge $e$ is given by:
-\begin{equation} \label{eq:edgemutpost}
-W(S_e) = \frac{\pi_\mu(e)\left[\pi_0(\rho)/\pi_0(e)\right]P(S_e)}{\sum_{e'\in E}\pi_\mu(e')\left[\pi_0(\rho)/\pi_0(e)\right]P(S_e')} = \frac{d_e\pi_\mu(e)/\pi_0(e)}{\sum_{e'\in E} d_{e'}\pi_\mu(e')/\pi_0(e')}
+\begin{equation} \label{eq:Wmu}
+W(S_e) = d_e\pi_\mu(e)/\pi_0(e)
 \end{equation}
-
-%TODO *1 could have W just be the numerator and dive later for simplicity. Maybe as an appendix prove via bayes that normalised it becomes a prob
-where $\rho$ represents the root edge and hence $\pi_0(\rho)/\pi_0(e)$ is a product of probabilities over only those cells that do not descend from $e$. The prior probability of an edge containing a mutation is taken to be the normalized edge length:
+The probability that a mutation occured at edge $e$ is given by (see appendix ??):
 \begin{equation*}
-P(S_e) = \frac{d_e}{\sum_{e'} d_{e'}}
+P(S_e\mid T, D) = (1-P(\sigma=0))\frac{W(S_e)}{\sum_{e'\in E}W(S_{e'})}
 \end{equation*}
+%TODO this is only P mutation at e AND no mutation prior, not P mutation GIVEN no mutation previous. Same difference? Should we factor in?
+
 %TODO shorten leaf edges to reduce mutations shared by only one cell? Monovar even excludes those completely (optionally), akin to making edge lengths 0 or excluding those e from E. We could also. Definitely for LOH
 %TODO to change weight to probability must include probability that no mutations in tree at all for this locus
 %NB while germline and clonal mutations are more likely, this should scale with root node length, so long as mutation frequency correlates to tree distance (it doesn't). But can convert!(?)
 \subsubsection*{Weights For Loss of Heterozygosity}
-Idea: only cases 1 and 2 are complex. Case 3 can be modeled as a haploid full tree and case 4 is ignored. For cases 1 and 2 we can then work out conditional weights assuming mutation above the attachment points.\\[1em]
-For a loss of heterozygosity events, we calculate weights in a similar way. Referring to Figure~\ref{fig:treecases} above these weights are calculated for cases 1, 2 and 3 in the following way:
+ Referring to Figure~\ref{fig:treecases} above these weights are calculated for cases 1, 2 and 3 in the following way:
 \begin{equation*}
-W^{(1)}(S_{e_1},L_{e_2}) = \frac{\pi_0(e_2)\left[\pi_1(e_1)/\pi_1(e_2)\right]\left[\pi_0(\rho)/\pi_0(e_1)\right]P(S_{e_1})P(L_{e_2})}{\sum_{e'_1\in E-E_l}\sum_{e'_2\succeq e'_1}\pi_0(e'_2)\left[\pi_1(e'_1)/\pi_1(e'_2)\right]\left[\pi_0(\rho)/\pi_0(e'_1)\right]P(S_{e'_1})P(L_{e'_2})}
+W^{(1)}(S_{e_1},L_{e_2}) = \frac{\pi_0(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}d_{e_1}P(L_{e_2})
 \end{equation*}
 \begin{equation*}
-W^{(2)}(S_{e_1},L_{e_2}) = \frac{\pi_2(e_2)\left[\pi_1(e_1)/\pi_1(e_2)\right]\left[\pi_0(\rho)/\pi_0(e_1)\right]P(S_{e_1})P(L_{e_2})}{\sum_{e'_1\in E-E_l}\sum_{e'_2\succeq e'_1}\pi_2(e'_2)\left[\pi_1(e'_1)/\pi_1(e'_2)\right]\left[\pi_0(\rho)/\pi_0(e'_1)\right]P(S_{e'_1})P(L_{e'_2})}
+W^{(2)}(S_{e_1},L_{e_2}) = \frac{\pi_2(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}d_{e_1}P(L_{e_2})
 \end{equation*}
 and
 \begin{equation*}
-W^{(3)}(S_e) = \frac{\pi_2(e)\left[\pi_0(\rho)/\pi_2(e)\right]P(S_e)}{\sum_{e'\in E-E_l}\pi_2(e')\left[\pi_0(\rho)/\pi_2(e')\right]P(S_e')}
+W^{(3)}(S_e) = \frac{\pi_2(e)}{\pi_0(e)}d_e
+\end{equation*} 
+If a haploid event should occur at the locus under examination, the prior probability that it should occur on edge $e$ is given to be: %TODO may need to lengthen root edge to account for homozygous alternate germline mutations
+\begin{equation*}
+P(L_e) = \frac{d_e}{\sum_{e'\in E-E_l} d_{e'}}
 \end{equation*}
-%TODO refer to *1 above
-%Note these weights become conditional probabilities (conditioned on prior mutation) when summed over e_1 values and e_1 priors and then multiplied by prob of LOH event (?) and then by 1/3(?) Hmm
-%We want conditional probability for the BFS.
-%TODO explain reasoning for no leaf edges
+where $E_l$ is the set of all edges directly above leaf nodes. It is assumed that allelic dropout due to amplification is much more frequent than ploidy changes that affect only a single cell, and thus the prior probability of the latter is set to 0. For cases 1 and 2 we define
+\begin{equation*}
+W'^{(1)}(L_e) = \frac{\sum_{e' \preceq e} W^{(1)}(S_{e'},L_e)}{\sum_{e' \preceq e}W(S_e')} 
+\end{equation*}
+where the values in the denominator come from Equation~\eqref{eq:Wmu}. Similarly
+\begin{equation*}
+W'^{(2)}(L_e) = \frac{\sum_{e' \preceq e} W^{(2)}(S_{e'},L_e)}{\sum_{e' \preceq e}W(S_e')} 
+\end{equation*}
+%TODO this assumes LOH and SNV positions are independent. Is this biased for those highr or lower or neither?
+Finally, assuming an SNV has already occured at the given locus, the probability of a case 1 haploid event happening at any edge $e$ is given by (see appendix ??):
+\begin{equation*}
+P(L_e^{(1)}) = P(L_e^{(1)}\mid S_{\preceq e}) = \frac{P(LOH)}{3} \frac{W'^{(1)}(L_e)}{\sum_{e'\in E-E_l}W'^{(1)}(L_{e'})}
+\end{equation*}
+and under the same assumption, the conditional probability for case 2:
+\begin{equation*}
+P(L_e^{(2)}) = P(L_e^{(2)}\mid S_{\preceq e}) = \frac{P(LOH)}{3} \frac{W'^{(2)}(L_e)}{\sum_{e'\in E-E_l}W'^{(2)}(L_{e'})}
+\end{equation*}
+The probability for case 3 is given by
+\begin{equation*}
+P(L_e^{(3)}) = P(L_e^{(3)}\mid S_{\preceq e}) = \frac{P(LOH)}{3} \frac{W^{(3)}(L_e)}{\sum_{e'\in E-E_l}W^{(3)}(L_{e'})}
+\end{equation*}
+The prior probability $P(LOH)$ of a loss of heterozygosity occuring at the site given that a SNV has occured is given to be
+\begin{equation*}
+P(LOH) = P(LOH_i \mid SNV_i) = \frac{3}{2}\cdot\frac{1-\prod_j\left[P(g_{ij}=0)+P(g_{ij}=1)\right]}{1-P(\sigma_i = 0)}
+\end{equation*}
 
 \subsubsection*{Genotyping Cells}
-With all of these values computed for each of the edges in the tree, we can then begin a depth first traversal of the tree keeping track of genotype probabilities at every node. For the starting point we say the root node has genotype probabilities $P(g=0)=1$ and $P(g=1)=P(g=2)$. If node $n_1$ is the direct ancestor of $n_2$ separated by edge $e$ we define the relations:
+%TODO got to keep a running probability of case 3, separate from genotype probs. prob of 2 from 0 = p(S_e)*(sum(P(case 3 ancestral))+case2 at e)
+With all of these values computed for each of the edges in the tree, we can use a dynamic programming algorithm to genotype the cells. We complete a depth first traversal of the tree keeping track of genotype probabilities at every node. We also keep track of the probability $P(L_{\preceq e}^{(3)})$ that a silent case 3 haploid event has occured ancestral to each node. The initial conditions for the root node are the genotype probabilities $P(g=0)=1$ and $P(g=1)=P(g=2)$ and $P(L_{\preceq \rho}^{(3)}) = 0$. Let $n_1$ be the direct ancestor of $n_2$ such that $n_1$ and $n_2$ are joined by $e$ and have genotypes $g_1$ and $g_2$ respectively. Therefore we define the relations:
 \begin{equation*}
-P(g_{n_2} = 0) = P(g_{n_1}=0)*((1-W(S_e))+W(S_e)*P(L_e)*\dots
+P(L^{(3)}_{\preceq n_2}) = P(L^{(3)}_{\preceq n_1}) +P(L^{(3)}_e)
 \end{equation*}
-\begin{equation*}
-P(g_{n_2} = 1) = P(g_{n_1}=0)*W(S_e)(1-P(L_e))+P(g_{n_1}=1)(1-P(L_e)*(W^{(1)}+W\dots))
-\end{equation*}
-\begin{equation*}
-P(g_{n_2}=2) = P(g_{n_1}=0)*W(S_e)*P(L_e) + \dots
-\end{equation*}
-%TODO these need to be converted to actual probabilities not just weights for this eqn. to work
+\begin{align*}
+P(g_2 = 0) = &P(g_1=0)\left[(1-P(S_e))+P(S_e)P(L^{(1)}_e)\right]\\
++ &P(g_1 = 1)\left[P(L^{(1)}_e)\right]
+\end{align*}
+%TODO is it necessary to include that no type 3, is that assumed?
+\begin{align*}
+P(g_2 = 1) = &P(g_1=0)\left[P(S_e)(1-P(L^{(1)}_e)-P(L^{(2)}_e))\right]\\
++ &P(g_1 = 1)\left[1-P(L^{(1)}_e)-P(L^{(2)}_e)\right]
+\end{align*}
+%TODO do we need 1-P(S_e) here?
+\begin{align*}
+P(g_2=2) = &P(g_1=0)\left[P(S_e)(P(L^{(3)}_{\preceq n_2}) + P(L^{(2)}_e))\right]\\
++ &P(g_1=1)\left[P(L^{(2)}_e)\right]\\
++ &P(g_1=2)
+\end{align*}
 
-Other stuff: normalize probs if need, either call max prob or filter.
-%%TODO should we marginalize on P(\sigma)? all the same except consider configurations that provide same sigma together and give p(e,e_LOH)=P(e,e_LOH|sigma)p(sigma) where P(e, e_LOH|sigma) is pi*pi/sum(pi*pi where sigma)
-%Once a cell tree, $T$, has been built, individual cell genotypes can be inferred from the phylogeny directly. This will give our final estimate for genotype probabilities.
-%\begin{equation*}
-%P(g_{ij}\mid D_i, T) = (1-P(\sigma=0))\sum_{e\in E} \left[ P(g_{ij}\mid e, T, D_i)P(e\mid T, D_i) \right] + P(\sigma = 0)P(g_{ij}\mid\sigma=0)
-%\end{equation*}
-%%TODO this is not really how we do it below
-%where $E$ is the set of all edges in the rooted tree.
-%
-%\subsubsection*{Inferring SNVs}
-%To begin with, we compute the probabilities for all descendents of each node having the same genotype: $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate respectively. These values are taken to be
-%\begin{equation*}
-%\pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
-%\end{equation*}
-%where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$. We also compute two more values, $\pi_\alpha(e)$ and $\pi_\beta(e)$, defined as the probability that all descendents of $e$ have genotype (0 or 1) or (1 or 2) respecively. These five values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch. Assuming the site contains a mutation and no loss of heterozygosity, the probability that the mutation occured on branch $e$ is given by:
-%\begin{equation} \label{eq:edgemutpost}
-%P(e\mid T, D_i) = \frac{\pi_\beta(e)(\pi_0(\bullet)/\pi_0(e))P(e)}{\sum_{e'\in E}\pi_\beta(e')(\pi_0(\bullet)/\pi_0(e))P(e')} = \frac{d_e\pi_\beta(e)/\pi_0(e)}{\sum_{e'\in E} d_{e'}\pi_\beta(e')/\pi_0(e')}
-%\end{equation}
-%%Note this is because we consider leaf probabilities to be "observations/data" using bayes.
-%where $\bullet$ represents the root edge and hence $\pi_0(\bullet)/\pi_0(e)$ is a product of probabilities over only those cells that do not descend from $e$. The prior probability of an edge containing a mutation is given by the normalized edge length:
-%%TODO
-%\begin{equation*}
-%P(e) = \frac{d_e}{\sum_{e'} d_{e'}}
-%\end{equation*}
-%%TODO is this suitable with jukes cantor, or should I use just $\overline{p}$ for distance? might need an exponential or smth.
-%A very large portion of mutations will likely be either germline or clonal, however we also expect the root node to be directly above the longest edge.
-%\subsubsection*{Inferring Loss of Reference Allele}
-%%TODO how to account for homozygous SNPs?, clonal changes are given by increased arm length... Also longest "edge" should be decoy. Should we marginalize out? Then what is P(homosnp)?
-%A genetic ploidy change can lead to a loss of heterozygosity, which we model as a sudden switch to homozygosity. Letting $L^{(r)}_e$ be the event that the reference allele was dropped at edge $e$,we have
-%\begin{equation*}
-%P(g_j = 2) = 
-%\end{equation*}
-%
-%\subsubsection*{Inferring Loss of Alternate Allele}
-%%TODO remember to not include leaves
-%%TODO this whole algorithm may be bullshit and there could be a better way using BFS and keeping track of marginal probabilities along the way...
+When the tree traversal reaches the leaf nodes, these are taken to be the cell genotype probabilities. The cell will be genotyped in accordance with the highest probability.
 
 
 \end{document}
