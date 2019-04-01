@@ -7,7 +7,7 @@ P(SNV_i\mid D_i) = 1- P\left(\sum_{j=1}^m g_{ij} = 0 \mid D_i\right) = 1-P(\sigm
 \end{equation}
 Using Bayes' formula:
 \begin{equation}\label{eq:sitebayes}
-P\left(\sigma = 0 \mid D_i\right) = \frac{P(D_i\mid \sigma = 0)P(\sigma = 0)}{\sum_{\sigma'=0}^{2m}[P(D_i\mid \sigma=\sigma')P(\sigma')]}
+P\left(\sigma \mid D_i\right) = \frac{P(D_i\mid \sigma)P(\sigma)}{\sum_{\sigma'=0}^{2m}[P(D_i\mid \sigma=\sigma')P(\sigma')]}
 \end{equation}
 The value of $P(D_i\mid \sigma = 0)$ is simply the product of the cell likelihoods of homozygous reference calculated above. The priors $P(\sigma)$ are those determined by Equation~\eqref{eq:overallprior}. To compute the denominator, howevever, we must compute the likelihood for each alternate allele count across a locus. There are various permutations of cell genotypes that may give rise to an alternate allele count of $\sigma$, so this is not as simple as the special case where $\sigma=0$.\\
 
