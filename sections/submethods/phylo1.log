@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  26 MAR 2019 16:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  1 APR 2019 12:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -906,9 +906,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Warning: Citation `sciphi' on page 1 undefined on input line 4.
 
 
-Overfull \hbox (207.8102pt too wide) detected at line 17
-[] \OT1/cmr/m/n/10 = [] [] []
- []
+LaTeX Warning: Citation `sciphi' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `monovar' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Reference `eq:sitebayes' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `BSA' on page 1 undefined on input line 27.
 
 [1
 
@@ -918,25 +925,26 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 14185 strings out of 494880
- 272249 string characters out of 6179602
- 308851 words of memory out of 5000000
- 17233 multiletter control sequences out of 15000+600000
+ 14188 strings out of 494880
+ 272277 string characters out of 6179602
+ 310851 words of memory out of 5000000
+ 17236 multiletter control sequences out of 15000+600000
  5647 words of font info for 23 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 64i,5n,56p,715b,120s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,5n,56p,747b,120s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy7.pfb>
-Output written on phylo1.pdf (1 page, 80236 bytes).
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy7.pfb>
+Output written on phylo1.pdf (1 page, 91108 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 47 PDF objects out of 1000 (max. 8388607)
+ 34 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  26 MAR 2019 17:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  28 MAR 2019 07:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -774,8 +774,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
-)))
-No file methods.aux.
+))) (./methods.aux)
 \openout1 = `methods.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
@@ -790,6 +789,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -894,7 +894,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
 
-! LaTeX Error: File `sections/submethods/method_introduction.tex' not found.
+! LaTeX Error: File `sections/submethods/preprocess.tex' not found.
 
 Type X to quit or <RETURN> to proceed,
 or enter new name. (Default extension: tex)
@@ -903,17 +903,17 @@ Enter file name:
 ! Emergency stop.
 <read *> 
          
-l.5 ...le{sections/submethods/method_introduction}
-                                                  ^^M
+l.8 \subfile{sections/submethods/preprocess}
+                                            ^^M
 *** (cannot \read from terminal in nonstop modes)
 
  
 Here is how much of TeX's memory you used:
- 14152 strings out of 494880
- 271743 string characters out of 6179602
- 305836 words of memory out of 5000000
- 17218 multiletter control sequences out of 15000+600000
- 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 14158 strings out of 494880
+ 271798 string characters out of 6179602
+ 305835 words of memory out of 5000000
+ 17220 multiletter control sequences out of 15000+600000
+ 4245 words of font info for 16 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  64i,1n,56p,435b,86s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!
