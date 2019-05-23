@@ -21,7 +21,7 @@ P(\vec{G}\mid \sigma) = \binom{2m}{\sigma}^{-1}
 \end{equation*}
 Since we do not consider phased sequencing data, we must reproduce Equation~\eqref{eq:phasedlike} in an unphased form. To begin, we see that the likelihood $P(D_i\mid \vec{G}) = P(D_i\mid \vec{g})$ if $\vec{g}$ is the unphased vector that corresponds to $\vec{G}$, since our cell genotype likelihoods do not consider phasing. Note that there are $2^\chi$ phased genotype vectors that correspond to any given unphased genotype vector $\vec{g}$, where $\chi(\vec{g})$ is the number of heterozygous cells in the vector. Using this multiplicity, we can now reproduce Equation~\eqref{eq:phasedlike} without reference to phasing.
 \begin{equation*}
-P(D_i\mid\sigma_i) = \sum_{\vec{g}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} P(D_i\mid\vec{g}) = \sum_{\vec{g}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} \prod_{j=1}^{m}P(D_{ij}\mid g_{j})
+P(D_i\mid\sigma_i) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} P(D_i\mid\vec{g}) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} \prod_{j=1}^{m}P(D_{ij}\mid g_{j})
 \end{equation*}
 Let the function $\delta(\vec{g},\sigma) = 1$ if $\norm{\vec{g}}=\sigma$ otherwise it evaluates to 0. We can now write the above in a more suggestive form:
 \begin{equation}\label{eq:sitelikelihood}
