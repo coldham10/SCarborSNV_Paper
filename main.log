@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  23 JUL 2019 05:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.2.7)  23 JUL 2019 05:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -899,8 +899,19 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 22.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(./sections/abstract.tex) (./sections/methods.tex
-(./sections/submethods/preprocess.tex
+(./sections/abstract.tex) (./sections/introduction.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--6
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--8
+
+ []
+
+) (./sections/methods.tex (./sections/submethods/preprocess.tex [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 9.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
@@ -908,10 +919,8 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 9.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]) (./sections/submethods/ce
-ll_likelihoods.tex
+)
+(./sections/submethods/cell_likelihoods.tex
 Underfull \hbox (badness 10000) in paragraph at lines 11--13
 
  []
@@ -921,14 +930,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 123--126
 
  []
 
-[5]) (./sections/submethods/well_priors.tex)
-(./sections/submethods/site_calling.tex [6]
+[5]) (./sections/submethods/well_priors.tex [6])
+(./sections/submethods/site_calling.tex
 Underfull \hbox (badness 10000) in paragraph at lines 11--13
 
  []
 
-[7]) (./sections/submethods/phylo1.tex) (./sections/submethods/inference.tex
-[8]
+[7]) (./sections/submethods/phylo1.tex [8])
+(./sections/submethods/inference.tex
 
 Package caption Warning: \label without proper reference on input line 35.
 See the caption package documentation for explanation.
@@ -952,15 +961,18 @@ LaTeX Warning: Reference `fig:treecases' on page 13 undefined on input line 27.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 14489 strings out of 494880
- 278432 string characters out of 6179602
- 319902 words of memory out of 5000000
+ 14492 strings out of 494880
+ 278496 string characters out of 6179602
+ 317902 words of memory out of 5000000
  17479 multiletter control sequences out of 15000+600000
  14061 words of font info for 54 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 55i,14n,54p,1408b,1252s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,14n,54p,1408b,1254s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texli
@@ -978,7 +990,7 @@ exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on main.pdf (14 pages, 266424 bytes).
+Output written on main.pdf (14 pages, 267719 bytes).
 PDF statistics:
  125 PDF objects out of 1000 (max. 8388607)
  90 compressed objects within 1 object stream
