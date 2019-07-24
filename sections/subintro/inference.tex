@@ -2,6 +2,26 @@
 %Phylogenetic inference
 
 \begin{document}
+For a set of $m$ sequenced cells, there are TODOTODOTODO possible phylogenetic trees that may relate them [TODO cite txt].
+Furthermore if a point mutation has occurred at a locus, the mutation could have possibly occurred on any of the TODOTODOTODO branches of the tree resulting in a total of \textbf{TODO} possible structures to consider at any locus.
+A truly rigorous statistical analysis of the phylogenetic relationship between cells would have to compute the likelihood of the read data marginalized on all of these \textbf{TODO f(m)} trees, which for any significant number of single cells is practically infeasible.
+
+
+Since a rigorous search through the tree space is impractical, a heuristic search through a subspace of trees or an approximate phylogeny is required.
+Herein lies a major algorithmic challenge: using the knowledge of a shared ancestral relationship between cells to improve SNV calling accuracy while maintaing practical efficiency.
+The Sci$\Phi$ algorithm uses an ingenious Markov chain Monte Carlo (MCMC) technique to heuristically search through a likely subspace of cell phylogenies and weight the final inference based on this subset of trees.
+The success of this method has proven the possibility of using phylogenetic inference to improve SNV calling accuracy without incurring massive algorithmic complexity.
+The goal of SCarborSNV is to reduce this complexity further while still leveraging the prior information of cell kinship to improve calling accuracy over phylogeny-agnostic methods.
+In lieu of the MCMC algorithm employed by Sci$\Phi$, SCarborSNV uses an efficient neighbour-joining algorithm to infer information from approximate trees.
+
+\textbf{TODO:} description of (probabilistic) jukes cantor and NJ pulled from txt.
+
+The complexity of the core neighbour joining algorithm is $O(m^3)$ however only computing the pairwise distances involves scanning through the entire genome.
+Therefore the overall complexity of the neighbour joining algorithm is $O(nm^2 + m^3) = O(m^2(n+m))$, and since the size of $n$ (possibly upwards of $3\times10^9$) dominates $m$ (currently $<100$, possibly up to the order of $10^3$ in future), for all practical purposes the neighbour joining in SCarborSNV is linear in $n$ and quadratic in $m$.
+This potential for an asymptotic speedup is the core motivation for SCarborSNV, and may hopefully expand the possibility of single cell SNV calling to samples of thousands of cells.
+
+
+
 
 \end{document}
 
