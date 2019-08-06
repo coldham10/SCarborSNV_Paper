@@ -2,13 +2,27 @@
 
 \begin{document}
 
-Assuming the tree created above is accurate, we now seek to infer genotypes from this phylogeny so as to overcome errors and noise associated with low coverage SCS data. We first determine weights for attaching point mutation and different types of LOH events to different edges of the tree, and then use these weights to determine genotype probabilities for each cell.
+Assuming the tree $T$ created above is accurate, we now seek to infer genotypes from this phylogeny so as to overcome errors and noise associated with low coverage SCS data.
+We first determine weights for attaching point mutations and different types of LOH events to different edges of the tree, and then use these weights to determine genotype probabilities for each cell.
+The approximate phylogeny was found by combing information from across the genome, however to infer cell genotypes we shall return to considering individual loci.
 \subsubsection{SNV weights}
-To begin with, we compute the probabilities of all descendents of each node having the same genotype: $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate respectively. These values are taken to be
+In the simplest case, we ignore any potential loss of heterozygosity.
+For each edge of the tree $e$, we seek to answer the following question: assuming there is a pont mutation at this locus, what is the probability it occurred at $e$?
+
+To begin with, we compute the probabilities of all descendents of each node in the tree having the same genotype.
+We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate.
+
+These values are taken to be
 \begin{equation*}
 \pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
 \end{equation*}
-where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$, and $P(g_j =g)$ are the posterior probabilities calculated in Equation~\eqref{eq:sitebayes}. We also compute one more values, $\pi_\mu(e)$, defined as the probability that all descendents of $e$ have genotype 1 or 2. These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch. In the case of a point mutation but no loss of heterozygosity, the weight given to attaching a point mutation at edge $e$ is given by:
+where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$.
+$P(g_j = g)$ here are the posterior probabilities calculated in Equation~\eqref{eq:sitebayes}.
+We also compute one more value, $\pi_\mu(e)$, defined as the probability that all descendents of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
+These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch.
+
+If an SNV occurred at edge $e$ in $T$, we would expect that all descendents of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
+
 \begin{equation} \label{eq:Wmu}
 W(S_e) = d_e\pi_\mu(e)/\pi_0(e)
 \end{equation}
