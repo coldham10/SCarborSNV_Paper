@@ -10,32 +10,43 @@ The approximate phylogeny was found by combing information from across the genom
 In the simplest case, we ignore any potential loss of heterozygosity.
 For each edge of the tree $e$, we seek to answer the following question: assuming there is a pont mutation at this locus, what is the probability it occurred at $e$?
 
-To begin with, we compute the probabilities of all descendents of an edge in the tree having the same genotype.
-We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate.
+To begin with, we compute the likelihood of all descendents of an edge in the tree having the same genotype.
+We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the likelihoods that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate.
 
 These values are taken to be
-\begin{equation*}
+\begin{equation}
 \pi_g(e) = \prod_{\{j:c_j\succ e\}} P(g_j = g)
-\end{equation*}
+\end{equation}
 where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$.
-$P(g_j = g)$ here are the posterior probabilities calculated in Equation~\eqref{eq:sitebayes}.
-We also compute one more value, $\pi_\mu(e)$, defined as the probability that all descendents of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
+$P(g_j = g)$ here are the probabilities calculated in Equation~\eqref{eq:sitebayes}.
+We also compute one more value, $\pi_\mu(e)$, defined as the likelihood that all descendents of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
 These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch.
 
 If an SNV occurred at edge $e$ in $T$, we would expect that all descendents of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
-Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that the likelihood(?) of this simplifies to:
-\begin{equation}
-    \prod_{c_l\succ e}P(g_l =1,2)\prod_{c_m\nsucc e} P(g_m = 0) = \pi_\mu(e)\frac{\pi_0(\rho)}{\pi_0(e)}
-\end{equation}
-Since mutations are more likely to occur on longer edges by definition we must (?) scale this value by the prior probability that any mutation occurs on the given branch.
+Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that the likelihood of this simplifies to:
+\begin{equation*}
+    \prod_{c_x\succ e}P(g_x =1,2)\prod_{c_x\nsucc e} P(g_y = 0) = \pi_\mu(e)\frac{\pi_0(\rho)}{\pi_0(e)}
+\end{equation*}
+The prior probability of a mutation occuring on any branch of the tree can be found by using the edge lengths: mutations occur on longer edges more frequently.
 We must undo the Jukes-Cantor correction that was useful for neighbor joining to find a value proportional to the expected number of SNVs along an edge.
-We find $\overline{p}_e = \frac{3}{4}\left(1-e^{-\frac{4}{3}d_e}\right)$ to be such a value and therefore define the weight for attaching a SNV to edge $e$ to be:
-\begin{equation}
+We find $\overline{p}_e = \frac{3}{4}\left(1-e^{-\frac{4}{3}d_e}\right)$ to be such a value and therefore define the prior probability of attaching a SNV to edge $e$ to be:
+\begin{equation*}
+    P(S_e) = \frac{\overline{p}_e}{\sum_{e'}\overline{p}_{e'}}
+\end{equation*}
+Since $\pi_0(\rho)$ and $\sum_{e}\overline{p}_{e}$ are constant for a locus, we define a weight for attaching a SNV with no LOH to edge $e$ as:
+\begin{equation*}
     W(S_e) = \frac{\pi_\mu(e)}{\pi_0(e)} \overline{p}_e
+\end{equation*}
+which is proportional to the posterior probability of attachment at $e$ (assuming a SNV occurred at this locus) up to a normalization constant.
+When we recurse up the tree computing $\pi_g$ values, we can also compute and store these weights $W(S_e)$.
+If we recursively sum the weights from the two childen of each node, at the root this sum value will equal the total sum of weights and we can thereafter derive the probabilities:
+\begin{equation} \label{eq:SNVattachP}
+    P(S_e\,\mid\,SNV) = \frac{W(S_e)}{\sum_{e'}W(S_e)}
 \end{equation}
-We have ignored the constant $\pi_0(\rho)$ as it is constant for the locus, and the normalized weights will eventually be used.
+
 
 \subsubsection*{Weights For Loss of Heterozygosity}
+
 \begin{figure}[h]
 	\centering
 
@@ -95,6 +106,71 @@ We have ignored the constant $\pi_0(\rho)$ as it is constant for the locus, and 
 The more complicated cases invlove both a SNV and a ploidy change occuring at the same locus.
 The four possible ways this can occur is shown in Figure~\ref{fig:treecases2}.
 
+For case 1, a point mutation occurred at edge $e_1$ before a ploidy change dropped the alternate allele at $e_2$.
+We expect that all cells $e\succ e_2$ will have genotype 0; cells for which $e\succ e_1$ but $e\nsucc e_2$ will have genotype 1 and all other cells will have genotype 0.
+Similar to the simplest case, the likelihood of a SNV at $e_1$ followed by a dropped alternate allele at $e_2$ is given by:
+\begin{equation*}
+    \prod\limits_{c_x\succ e_2}P(g_x = 0)\times\prod\limits_{c_y\succ e_1,\nsucc e_2} P(g_y = 1)\times\prod\limits_{c_z\nsucc e_1, \nsucc e_2} P(g_z=0)
+    = \pi_0(e_2)\cdot\frac{\pi_1(e_1)}{\pi_1(e_2)}\cdot\frac{\pi_0(\rho)}{\pi_0(e_1)}
+\end{equation*}
+
+The prior probability of attaching the SNV at $e_1$ is the same as in the simple case: normalized $\overline{p}_{e_1}$.
+The prior probability of attaching a loss of heterozygosity at $e_2$, however, is subtly different.
+We assume that a loss of heterozygosity affecting just a single cell is far less probable than an allelic dropout event during the amplification process.
+Therefore we define
+\begin{equation*}
+    P(L_{e}) = \frac{\overline{p}_e}{\sum_{e'\in E-E_L}\overline{p}_{e'}}
+\end{equation*}
+where $E_L$ is the set of all edges directly above a leaf node.
+This is the same as setting the prior probability of a loss of heterozygosity affecting individual cells to 0.
+The weight of attaching the SNV to $e_1$ and the LOH to $e_2\succeq e_1$ for case 1 is:
+\begin{equation}
+    W^{(1)}(S_{e_1},\,L_{e_2}) = \frac{\pi_0(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}\overline{p}_{e_1}\overline{p}_{e_2}
+\end{equation}
+Assuming both a SNV and LOH have occurred at the locus, and the case is case 1, this weight can be converted into a joint attachment probability by normalizing over the pairs of edges for which $\{e_1,e_2\}\subset E-E_L$ and $e_1\preceq e_2$.
+
+The weights for cases 2 and 3 can be found using similar logic to be:
+\begin{equation}
+    W^{(2)}(S_{e_1},\,L_{e_2}) = \frac{\pi_2(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}\overline{p}_{e_1}\overline{p}_{e_2}
+\end{equation}
+\begin{equation}
+    W^{(3)}(S_{e_1},\,L_{e_2}) = \frac{\pi_2(e_1)}{\pi_0(e_1)}\overline{p}_{e_1}\overline{p}_{e_2}
+\end{equation}
+although $W^{(3)}$ has the slightly different domain for normalization: $e_2\in E-L,\,e_1\in E$ and of course $e_1\succeq e_2$.
+
+\subsubsection*{Marginal Probabilities of Ploidy Change}
+
+For cases 1 and 2, it will be useful to answer the following question at each edge: assuming there is a case $i$ event at this locus and a SNV has already been observed ancestral to this edge, what is the probability that a LOH event will happen at this edge?
+Let us assume that an SNV occurs at this locus and that a case 1 loss of heterozygosity also definitely occurs.
+We first see that for any $e'\preceq e$: 
+\begin{align*}
+    P(L_e\,\mid\,S_{\preceq e}) &= \frac{P(L_e\cap S_{\preceq e})}{P(S_{\preceq e})}\\
+    &= \frac{P(L_e\cap(S_\rho \cup S_{e_i} \cup \dots)}{P(S_\rho \cup S_{e_i} \cup \dots)}\\
+    &= \frac{P((L_e\cap S_\rho) \cup (L_e\cap S_{e_i}) \cup \dots)}{P(S_\rho \cup S_{e_i} \cup \dots)}
+\end{align*}
+Due to infinite sites, mutations on different branches at a locus are mutually exclusive, hence
+\begin{equation*}
+    P(L_e\,\mid\,S_{\preceq e}) = \frac{\sum_{e'\preceq e}P(L_e\cap S_{e'})}{\sum_{e'\preceq e}P(S_{e'})}
+\end{equation*}
+The numerator is a sum over the joint attachment probability distribution for case 1 given by $W^{(1)} (S_{e'},\,L_e)$ and the denominator is a sum over the distribution found in Equation~\ref{eq:SNVattachP}.
+
+To compute the various values of $W^{(1)}(S,\, L)$ we can traverse the tree and at each edge $e$ (excluding edges above a leaf)  sum the values of $W^{(1)}(S_{e'\preceq e},\,L_e)$, as well as $P(S_e'\preceq e)$.
+This traversal takes $O(m\log m)$ time in the best case, and $O(m^2)$ in the worst case.
+Summing all these partial sums  of $W^{(1)}$ will give us the normalization constant which can be divided out afterwards.
+
+This has all been shown assuming case 1 to be true for the locus, but the values for case 2 are exactly similar and can be computed in the same traversal.
+Case 3, however, is somewhat different, as we need to find the probability of an LOH given that no ancestral edge has a SNV:
+\begin{align*}
+    P(L_e\,\mid\,\neg S_{\prec e}) &= \frac{P(L_e\cap S_{\succeq e})}{P(\neg S_{\prec e})}\\
+   &= \frac{1}{\sum W^{(3)}}\cdot\frac{\sum_{e'\succeq e}W^{(3)}(S_{e'},\,L_e)}{\prod_{e'\prec e}\left[1-P(S_{e'})\right]}
+\end{align*}
+Calculating this value at each node requires values from all ancestors and descendants, and therefore can only be calculated in $O(m^2)$.
+
+The marginal probabilities here have so far assumed not only that there is a loss of heterozygosity at the locus, but also that their particular case is true.
+We established when determening prior probabilities for $\sigma$ that 
+
+%OLD:
+\newpage
 Referring to Figure~\ref{fig:treecases2} above these weights are calculated for cases 1, 2 and 3 in the following way:
 \begin{equation*}
 W^{(1)}(S_{e_1},L_{e_2}) = \frac{\pi_0(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}d_{e_1}P(L_{e_2})
