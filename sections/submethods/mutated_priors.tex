@@ -30,7 +30,7 @@ Now let us consider the case where both a sSNV and a haploid event have both occ
 P(\sigma\mid\text{SNV}_T,H) = P(\sigma\mid\text{SNV}_T,H_T)P(H_T\mid H) + P(\sigma\mid\text{SNV}_T,H,\neg H_T)(1-P(H_T\mid H)) \label{eq:SNVT}
 \end{equation*}
 \subsubsection*{SNV and loss of heterozygosity within the subtree}
-In the first scenario described by Equation~\ref{eq:SNVT} both a point mutation and a ploidy change have occured within the sequenced subtree. This can be split into four further subcases (Figure~\ref{fig:bothmutationstree}).
+In the first scenario described by Equation~\ref{eq:SNVT} both a point mutation and a ploidy change have occured within the sequenced subtree. This can be split into four further subcases (Figure~\ref{fig:treecases}).
 
 \begin{figure}[h]\label{fig:treecases}
 	\centering
@@ -86,7 +86,6 @@ In the first scenario described by Equation~\ref{eq:SNVT} both a point mutation 
 	\end{subfigure}
 	
 	\caption{SNV and haploid event both within the subtree. (a) Point mutation happens before haploid event and mutated allele is dropped. (b) Point mutation happens before haploid event and reference allele is dropped. (c) Haploid event occurs before point mutation. Since haploid cells are modelled as becoming homozygous diploids, this case leads to only even values of alternate allele count. (d) In this case the point mutation and haploid event do not occur in the same lineage. We ignore this case as the haploid event does not affect the alternate allele count.}
-\label{fig:bothmutationstree}
 \end{figure}
 Considering the above three cases where a ploidy change in the subtree affects the locus alternate allele count, it is twice as likely that the point mutation should occur before the haploid event (cases 1 and 2), compared with the other temporal ordring (case 3). Therefore $P(\text{case 1 or 2})=2/3$ and $P(\text{case 3})=1/3$. This is because the cells before a haploid event, being diploid, have twice the chance of having a point mutation at a locus than the haploid descendants of such a mutation. We also assume the refence and alternate alleles have an equal chance of being dropped in a loss of heterozygosity.
 \begin{equation*}

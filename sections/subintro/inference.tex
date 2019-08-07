@@ -7,7 +7,7 @@ Furthermore if a point mutation has occurred at a locus, the mutation could have
 A truly rigorous statistical analysis of the phylogenetic relationship between cells would have to compute the likelihood of the read data marginalized on all of these \textbf{TODO f(m)} trees, which for any significant number of single cells is practically infeasible.
 
 
-Since a rigorous search through the tree space is impractical, a heuristic search through a subspace of trees or an approximate phylogeny is required.
+Since a rigorous search through the tree space is therefore highly impractical, a heuristic search through a subspace of trees or an approximate phylogeny is required.
 Herein lies a major algorithmic challenge: using the knowledge of a shared ancestral relationship between cells to improve SNV calling accuracy while maintaing practical efficiency.
 The Sci$\Phi$ algorithm uses an ingenious Markov chain Monte Carlo (MCMC) technique to heuristically search through a likely subspace of cell phylogenies and weight the final inference based on this subset of trees.
 The success of this method has proven the possibility of using phylogenetic inference to improve SNV calling accuracy without incurring massive algorithmic complexity.

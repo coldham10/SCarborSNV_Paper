@@ -5,11 +5,12 @@
 Assuming the tree $T$ created above is accurate, we now seek to infer genotypes from this phylogeny so as to overcome errors and noise associated with low coverage SCS data.
 We first determine weights for attaching point mutations and different types of LOH events to different edges of the tree, and then use these weights to determine genotype probabilities for each cell.
 The approximate phylogeny was found by combing information from across the genome, however to infer cell genotypes we shall return to considering individual loci.
+
 \subsubsection{SNV weights}
 In the simplest case, we ignore any potential loss of heterozygosity.
 For each edge of the tree $e$, we seek to answer the following question: assuming there is a pont mutation at this locus, what is the probability it occurred at $e$?
 
-To begin with, we compute the probabilities of all descendents of each node in the tree having the same genotype.
+To begin with, we compute the probabilities of all descendents of an edge in the tree having the same genotype.
 We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the probabilities that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate.
 
 These values are taken to be
@@ -22,21 +23,79 @@ We also compute one more value, $\pi_\mu(e)$, defined as the probability that al
 These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch.
 
 If an SNV occurred at edge $e$ in $T$, we would expect that all descendents of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
-
-\begin{equation} \label{eq:Wmu}
-W(S_e) = d_e\pi_\mu(e)/\pi_0(e)
+Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that the likelihood(?) of this simplifies to:
+\begin{equation}
+    \prod_{c_l\succ e}P(g_l =1,2)\prod_{c_m\nsucc e} P(g_m = 0) = \pi_\mu(e)\frac{\pi_0(\rho)}{\pi_0(e)}
 \end{equation}
-The probability that a mutation occured at edge $e$ is given by (see appendix ??):
-\begin{equation*}
-P(S_e\mid T, D) = (1-P(\sigma=0))\frac{W(S_e)}{\sum_{e'\in E}W(S_{e'})}
-\end{equation*}
-%TODO this is only P mutation at e AND no mutation prior, not P mutation GIVEN no mutation previous. Same difference? Should we factor in?
+Since mutations are more likely to occur on longer edges by definition we must (?) scale this value by the prior probability that any mutation occurs on the given branch.
+We must undo the Jukes-Cantor correction that was useful for neighbor joining to find a value proportional to the expected number of SNVs along an edge.
+We find $\overline{p}_e = \frac{3}{4}\left(1-e^{-\frac{4}{3}d_e}\right)$ to be such a value and therefore define the weight for attaching a SNV to edge $e$ to be:
+\begin{equation}
+    W(S_e) = \frac{\pi_\mu(e)}{\pi_0(e)} \overline{p}_e
+\end{equation}
+We have ignored the constant $\pi_0(\rho)$ as it is constant for the locus, and the normalized weights will eventually be used.
 
-%TODO shorten leaf edges to reduce mutations shared by only one cell? Monovar even excludes those completely (optionally), akin to making edge lengths 0 or excluding those e from E. We could also. Definitely for LOH
-%TODO to change weight to probability must include probability that no mutations in tree at all for this locus
-%NB while germline and clonal mutations are more likely, this should scale with root node length, so long as mutation frequency correlates to tree distance (it doesn't). But can convert!(?)
 \subsubsection*{Weights For Loss of Heterozygosity}
- Referring to Figure~\ref{fig:treecases} above these weights are calculated for cases 1, 2 and 3 in the following way:
+\begin{figure}[h]
+	\centering
+
+	\begin{subfigure}{0.2\textwidth}
+		\centering
+		\begin{tikzpicture}[sibling distance=2em, level distance=2em]
+  \node {$rr$}
+    child { node {$rr$} }
+    child { node {$ra$}
+      child { node {$ra$} }
+      child { node {$r$}}
+          };
+		\end{tikzpicture}
+		\caption{Case 1}
+	\end{subfigure}
+	\begin{subfigure}{0.2\textwidth}
+		\centering
+		\begin{tikzpicture}[sibling distance=2em, level distance=2em]
+  \node {$rr$}
+    child { node {$rr$} }
+    child { node {$ra$}
+      child { node {$ra$} }
+      child { node {$a$}}
+          };
+		\end{tikzpicture}
+		\caption{Case 2}
+	\end{subfigure}
+	\begin{subfigure}{0.2\textwidth}
+		\centering
+		\begin{tikzpicture}[sibling distance=2em, level distance=2em]
+  \node {$rr$}
+    child { node {$rr$} }
+    child { node {$r$}
+      child { node {$r$} }
+      child { node {$a$}}
+          };
+		\end{tikzpicture}
+		\caption{Case 3}
+	\end{subfigure}
+	\begin{subfigure}{0.2\textwidth}
+		\centering
+		\begin{tikzpicture}[sibling distance=2em, level distance=2em]
+  \node {$rr$}
+    child { node {$ra$} 
+    	child { node {$ra$} }
+    	  }
+    child { node {$rr$} 
+    	child { node {$r$} }
+    	};
+		\end{tikzpicture}
+        \caption{Case 4}
+    \end{subfigure}
+    \caption{Different ways loss of heterozygosity can occur in a tree.}
+    \label{fig:treecases2}
+\end{figure}
+
+The more complicated cases invlove both a SNV and a ploidy change occuring at the same locus.
+The four possible ways this can occur is shown in Figure~\ref{fig:treecases2}.
+
+Referring to Figure~\ref{fig:treecases2} above these weights are calculated for cases 1, 2 and 3 in the following way:
 \begin{equation*}
 W^{(1)}(S_{e_1},L_{e_2}) = \frac{\pi_0(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}d_{e_1}P(L_{e_2})
 \end{equation*}
