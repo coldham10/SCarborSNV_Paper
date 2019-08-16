@@ -2,28 +2,22 @@
 
 \begin{document}
 The mathematical outline for calling SNVs is as follows.
-We begin by considering the total alternate allele count at any given locus, $\sigma\in [0,2m]$, which represents the sum over all cells of the number of non-reference alleles at the locus.
-For a locus, we can compute the prior probability $P(\sigma)$ by considering various possible mutation histories and incorporating constants such as the prior probability of any mutation at a site ($\lambda$).
+We begin by considering the total alternate allele count at any given locus, $\sigma\in [0,2m]$, which represents the sum over all cells of the number of non-reference alleles at the locus~\cite{monovar, listatistical}.
+For a locus, we can compute the prior probability $P(\sigma)$ by considering various possible mutation histories and incorporating constants such as the expected frequency of somatic mutations ($\lambda$).
 
 Next, we consider the likelihood of individual alternate allele count ($g$) on a per-cell basis: $P(d_{ij}\,\mid\,g)$.
-Using the prior $P(\sigma)$ and the cell likelihoods $P(d_{ij}\,\mid\,g)$, we use a dynamic programming algorithm to determine the posterior probability $P(\sigma\,\mid\,D_i)$ for each locus in $O(nm^2)$ time.
+Using the prior distribution $P(\sigma)$ and the cell likelihoods $P(d_{ij}\,\mid\,g)$, we use a dynamic programming algorithm to determine the posterior probability $P(\sigma\,\mid\,D_i)$ for each locus in $O(nm^2)$ time~\cite{monovar, ledurbin, listatistical}.
 At this stage we can exclude loci from further consideration for which $P(\sigma = 0\,\mid\, D_i)$ is very high.
 
 Having found the probability distribution for $\sigma$ at each site using information from across all cells, we use this in a simple binomial model to gain locus-specific priors for individual cell genotypes.
 Using these priors and the cell genotype likelihoods we quickly find a posterior probability on individual cell genotypes, $P(g_{ij}\,\mid\, D_i)$ from a weighted sum over the $\sigma$ distribution at each locus.
 
 Using these posterior probability distributions of $g$ for each cell at each locus, we define a new quantity $\overline{p_{ab}}$ that corresponds to the expected frequency with which alleles from cell $a$ will differ from those from cell $b$.
-This expectation value $\overline{p_{ab}}$ can be used to define a genetic distance between any two cells $d_{ab}$ inspired by the Jukes-Cantor distance.
+This expectation value $\overline{p_{ab}}$ can be used to define a genetic distance between any two cells $d_{ab}$ inspired by the Jukes-Cantor distance~\cite{BSA, JC}.
 Computing all pairwise distances between cells can be completed in $O(nm^2)$.
 
-An approximate phylogenetic tree of cells can be constructed using an algorithm known as neighbor joining.
-
-\textbf{TODO: rework once thought more about it}. 
-Inferring final cell genotypes from this phylogeny is acheived using a two-stage ``upwards-downwards" algorithm for each locus.
+An approximate phylogenetic tree of cells can be constructed using the agglomerative neighbor joining algorithm~\cite{BSA, NJ}.
+Inferring final cell genotypes from this phylogeny is acheived using a two-stage ``upwards-downwards" dynamic programming algorithm for each locus.
 In the upwards stage, each branch of the tree is assigned a probability of a mutation occurring at that branch for this locus, using the posterior genotype probabilities of the cells on the leaves.
 Once the branches have been assigned marginal mutation probabilities, these probabilities can be propagated downwards from the root of the tree to return final phylogeny-aware genotype probabilities for all the cells in the leaves.
-
-\textbf{TODO:} reestimate global parameters first, rebuild tree. Then maybe use EM to rebuild and recompute genotype probabilities??
-
-%Our method of identifying SNVs begins with computing the likelihood of observing the sequencing data for each cell and each locus independently, given all possible underlying genotypes. From these likelihoods and phylogeny aware priors we determine the posterior probability that each locus contains a mutation: pooling the data across cells to select only those loci of interest. The calculation of priors uses asymptotic aproximations and dynamic programming to further improve efficiency. We then use a neighbour joining algorithm to quickly reconstruct a phylogeny of the single cells. (MAYBE:) We then use this tree to re-estimate the frequencies of certain in vivo, in vitro and in silico (?) artifacts in the data, such as loss of heterozygosity (LOH) and allelic dropout (ADO). We then reconstruct a cell tree with these updated values using neighbour joining and derive from it a mutation tree (how??). We perform a search on this tree to impute missing mutations within cells (?) and reject unlikely mutations as false positives... This needs some work. Kim and Simon or Le and durbin
 \end{document}

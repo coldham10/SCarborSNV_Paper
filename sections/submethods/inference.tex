@@ -259,6 +259,8 @@ These probabilities will all be calculated in a final downward pass, where again
 \subsubsection*{Genotyping Cells}
 %TODO got to keep a running probability of case 3, separate from genotype probs. prob of 2 from 0 = p(S_e)*(sum(P(case 3 ancestral))+case2 at e)
 With all of these values computed for each of the edges in the tree, we can use a dynamic programming algorithm to genotype the cells. We complete a depth first traversal of the tree keeping track of genotype probabilities at every node. We also keep track of the probability $P(L_{\preceq e}^{(3)})$ that a silent case 3 haploid event has occured ancestral to each node. The initial conditions for the root node are the genotype probabilities $P(g=0)=1$ and $P(g=1)=P(g=2)$ and $P(L_{\preceq \rho}^{(3)}) = 0$. Let $n_1$ be the direct ancestor of $n_2$ such that $n_1$ and $n_2$ are joined by $e$ and have genotypes $g_1$ and $g_2$ respectively. Therefore we define the relations:
+%TODO write these including P(SNV) and P(LOH)
+%TODO also instead of just probability of silent mutation, have conditional probability of case 3 given g=0, therefore keep track of separate haploid 0 genotype
 \begin{equation*}
 P(L^{(3)}_{\preceq n_2}) = P(L^{(3)}_{\preceq n_1}) +P(L^{(3)}_e)
 \end{equation*}

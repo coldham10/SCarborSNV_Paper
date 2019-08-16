@@ -2,22 +2,24 @@
 
 \begin{document}
 The biochemical processes underlying DNA mutations are incredibly complex, and modelling all the known (often context dependent) ways in which somatic DNA mutations may arise would be beyond the scope of any algorithm.
-For example, mutations may include insertions and deletions (indels) of various lengths; copy number variations (CNVs) where sequences of DNA are repeated a variable number of times; anneuploidy, where the normally diploid genome may become haploid or polyploid and even situations where the specific welltype nucleotides (ACGT) may make certain mutations more or less probable.
+For example, mutations may include insertions and deletions (indels) of various lengths; copy number variations (CNVs) where sequences of DNA are repeated a variable number of times; anneuploidy, where the normally diploid genome may become haploid or polyploid and even situations where the specific welltype nucleotides (ACGT) may make certain mutations more or less probable\cite{monovar, 21breasts, 21breasts2, metastatic, gao2016punctuated}.
 With so much complexity in only the known patterns of mutation, modelling and analyzing all types of DNA mutation would be beyond the scope of any bioinformatic algorithm.
 Some simplifications must therefore be introduced.
 
 Following the example of state-of-the-art tools such as Monovar and Sci$\Phi$, only single nucleotide variations (SNVs, also called point mutations) are considered by SCarborSNV.
 For example indels are completely ignored, and CNVs are not inferred from read depth.
-Since anneuploidy is so prevalent in the context of cancers (TODO cite 90\%), they are somewhat accounted for by SCarborSNV.
-SCarborSNV does account for changes in ploidy from diploid to haploid, which may result in a loss of heterozygosity (LOH), and models such events as a sudden switch from heterozygous to homozygous.
+
+Since anneuploidy is so prevalent in the context of cancers (present in around 90\% of breast cancers~\cite{gao2016punctuated}) they are somewhat accounted for by SCarborSNV.
+SCarborSNV does account for changes in ploidy from diploid to haploid, which may result in a loss of heterozygosity (LOH).
+We shall model such a chromosomal aberration resulting in a LOH as a sudden switch from a heterozygous to a homozygous genotype.
 Furthermore SCarborSNV considers all loci to be biallelic: only a reference and alternate allele are considered to be possible at each locus.
 A further area of research would be to infer and call all the various known types of DNA mutation, but it is outside the scope of this algorithm.
 
 Finally, SCarborSNV assumes that the genome is composed of an infinite number of independent sites.
 This is to say that the prior probability of finding a reference or alternate allele at any locus is independent of surrounding loci, and furthermore at most one point mutation is possible at any given locus.
 The result is not only the biallelic assumption mentioned above, but also that each site may be analyzed in complete independence of its neighbours.
-As such, SCarborSNV (like Monovar and Sci$\Phi$) has linear complexity in the number of sites (denoted $n$).
-Although many mutations are in fact context dependent, and some loci are more or less vulnerable to mutation, the infite sites assumption provides a great mathematical simplification and is therefore common among most SNV calling algorithms.
+As such, SCarborSNV (like Monovar and Sci$\Phi$) has linear time complexity in the number of sites (denoted $n$).
+Although many mutations are in fact context dependent, and some loci are more or less vulnerable to mutation, the infite sites assumption provides a great mathematical simplification and is therefore common among most SNV calling algorithms~\cite{greenman2007patterns, 21breasts2, alexandrov2013signatures}.
 
 \end{document}
 
