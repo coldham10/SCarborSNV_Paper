@@ -1,13 +1,20 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-To improve algorithmic efficiency we wish only to consider sites with a non-trivial posterior probability of containing a somatic mutation. Furthermore it has been shown that combining low coverage sequencing data across samples at a locus can decrease false positive rates~\cite{ledurbin}. We therefore must reject loci where the posterior probability of mutation is low. For a given locus $i$:
-\begin{equation}
-P(SNV_i\mid D_i) = 1- P\left(\sum_{j=1}^m g_{ij} = 0 \mid D_i\right) = 1-P(\sigma = 0 \mid D_i)
-\end{equation}
+Until now we have considered the genotype likelihoods of individual cells independently.
+In population genetics, it has been found that pooling low coverage sequencing data from multiple samples at each locus can significantly reduce false positive rates and improve SNP calling accuracy~\cite{ledurbin}.
+Following in this vein, Monovar and later Sci$\Phi$ found that this approach could be applied to calling somatic SNVs from SCS data: pooling information from across cells instead of individuals~\cite{monovar, sciphi}.
+
+To develop this dependence between cells at a locus, we seek to find a posterior probability distribution over the total alternate allele count summed over all cells at a locus.
 Using Bayes' formula:
 \begin{equation}\label{eq:sitebayes}
 P\left(\sigma \mid D_i\right) = \frac{P(D_i\mid \sigma)P(\sigma)}{\sum_{\sigma'=0}^{2m}[P(D_i\mid \sigma=\sigma')P(\sigma')]}
+\end{equation}
+
+%OLD:
+To improve algorithmic efficiency we wish only to consider sites with a non-trivial posterior probability of containing a somatic mutation. Furthermore it has been shown that combining low coverage sequencing data across samples at a locus can decrease false positive rates~\cite{ledurbin}. We therefore must reject loci where the posterior probability of mutation is low. For a given locus $i$:
+\begin{equation}
+P(SNV_i\mid D_i) = 1- P\left(\sum_{j=1}^m g_{ij} = 0 \mid D_i\right) = 1-P(\sigma = 0 \mid D_i)
 \end{equation}
 The value of $P(D_i\mid \sigma = 0)$ is simply the product of the cell likelihoods of homozygous reference calculated above. The priors $P(\sigma)$ are those determined by Equation~\eqref{eq:overallprior}. To compute the denominator, howevever, we must compute the likelihood for each alternate allele count across a locus. There are various permutations of cell genotypes that may give rise to an alternate allele count of $\sigma$, so this is not as simple as the special case where $\sigma=0$.\\
 

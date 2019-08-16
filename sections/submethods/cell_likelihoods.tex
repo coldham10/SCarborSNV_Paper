@@ -3,63 +3,82 @@
 \begin{document}
 %TODO XXX priors before this not finally checked for writing
 
-Having found the prior probability distribution for the alternate allele count across all cells at a locus, we now turn to the likelihoods of individual cells at a locus.
+Having found the prior probability distribution for the alternate allele count across all cells at a locus, we now turn to the likelihoods of individual cell genotypes.
 The (unphased) genotype $g\in\{0,1,2\}$ for cell $j$ at locus $i$ is equivalent to the specific alternate allele count for that cell.
 At this stage of the calculation we consider all sites and cells independently.
 \subsubsection*{Homozygous genotypes}
 For the cell likelihood $\Lambda(g) = P(d_{ij}\,\mid\,g)$ we assume the error on each read to be independent of the other reads.
 Hence if cell $j$ has $l$ reads covering locus $i$ we have:
-\begin{equation}
-    P(d_{ij}\mid g) = \prod_{k=1}^l P(d_{ijk} \mid g)
-\end{equation}
-Note $d_{ij}=(\vec{r},\vec{e})$, where $\vec{r}$ are the $l$ reads for this cell at this locus.
-$\vec{e}$ are the associated probabilities of read error, which are directly computed from the the phred quality scores given by the sequencing machine.
-
-Marginalizing on sequencing error:
 \begin{equation*}
-    P(d_k \mid g) =  P(r_k,\,se \mid g) + P(r_k,\,\neg se \mid g)
+    P(d_{ij}\mid g) = \prod_{k=1}^l P(d_{ijk} \mid g)
 \end{equation*}
-\begin{itemize}
-    \item Since errors can occur during amplification or sequencing, we model an "intermediate allele", denoted $\beta$ that is amplified from the original nucleotide with some probability of error~\cite{monovar}. Trivially:
-    \begin{equation*}
-        P(r_k,\,\neg se \mid g) = P(r_k\mid \neg se ,\, g)(1-e_k)=P(\beta_k=r_k\mid g)(1-e_k) 
-    \end{equation*}
-    We similarly see:
-    \begin{equation*}
-        P(r_k,\, se \mid g) = P(r_k\mid se,\, g)e_k
-    \end{equation*}
-    Furthermore:
-    \begin{equation*}
-        P(r_k\mid se,\, g) = P(r_k\mid \beta_k\neq r_k,\,se,\,g) P(\beta_k\neq r_k \mid se,\,g)
-    \end{equation*}
-     Assuming (?) an error in sequencing the intermediate allele could produce any of the other three alleles with equal probability we find $P(r_k\mid \beta_k \neq r_k,\,se,g)=1/3$. Since the amplification of $\beta$ is unaffected by sequencing $P(\beta_k\neq r_k \mid se,\,g)=P(\beta_k\neq r_k\mid g)=1-P(\beta_k=r_k\mid g)$. We therefore have:
-     \begin{equation*}
-         P(r_k, se \mid g) = e_k \frac{1}{3}\left[1-P(\beta_k=r_k\mid g)\right]
-     \end{equation*}
-     \item Finally the likelihood $P(D_{ij}\mid g)$ for cell at a locus for a homozygous genotype is:
-     \begin{equation}
-          P(D_{ij}\mid g) = \prod_{k=1}^l \left[ (1-e_k)P(\beta_k=r_k\mid g) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g)) \right]
-     \end{equation}
-\end{itemize}
-\subsubsection*{Heterozygous genotypes and allelic dropout}
-\begin{itemize}
-     \item For the heterozygous case, we must account for the possibility of allelic dropout (ADO)~\cite{monovar,sciphi}. Therefore:
-     \begin{equation*}
-         P(D_{ij}\mid g=1) = P(D_{ij}, \text{ADO} \mid g=1)+ P(D_{ij}, \neg \text{ADO}\mid g=1)
-     \end{equation*}
-     Letting $P_{ADO}$ be the probability of an a dropout event, this expands to:
-     \begin{equation*}
-         P(D_{ij}\mid g=1) = P_{ADO}P(D_{ij}\mid \text{ADO},\, g=1) + (1-P_{ADO})P(D_{ij} \mid \neg \text{ADO},\, g=1)
-     \end{equation*}
-     In the result of an allelic dropout from a heterozygous locus, only one allele will remain after the amplification process and hence the likelihood $P(D_{ij}\mid \text{ADO},\, g=1)$ will resemble the homozygous case. We assume allelic dropout can affect either  allele with equal probability and hence:
-     \begin{equation*}
-         P(D_{ij}\mid \text{ADO},\, g=1) =\frac{1}{2}P(D_{ij}\mid g=0) + \frac{1}{2}P(D_{ij}\mid g=2)
-     \end{equation*}
-     For the case without allelic dropout, the form of the likelihood is identical to the homozygous case:
-     \begin{equation*}
-           P(D_{ij}\mid \neg\text{ADO},\,g=1) = \prod_{k=1}^l \left[ (1-e_k)P(\beta_k=r_k\mid g=1) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g=1)) \right]
-     \end{equation*}
-\end{itemize}
-%NOTE: for thesis good to include all calculation but for paper should probably just cite monovar
+Note $d_{ij}=(\vec{r},\vec{e})$, where $\vec{r}$ are the $l$ reads for this cell at this locus and $\vec{e}$ are the associated $l$ probabilities of read error.
+The values of $\vec{e}$ are provided by the sequencing machine in the form of Phred quality scores, which are directly proportional to the log-probability of sequencing error. 
 
+For any particular read and associated read error probability, we first marginalize the probability of observing this data on whether or not there has been an error in sequencing:
+\begin{equation*}
+    P(d_{k} \mid g) =  P(r_k,\,se \mid g) + P(r_k,\,\neg se \mid g)
+\end{equation*}
+Since errors can occur during amplification or sequencing, we model the result of amplification as a latent ``intermediate allele", denoted $\beta$.
+This random variable follows a discrete, symmetric, four-point distribution that assumes a constant probability of amplification error for any base, and equal probability of amplifying either allele in the heterozygous case~\cite{monovar}.
+This probability of amplification error is an input parameter for SCarborSNV, with a default value of 0.002.
+If a read is not the result of a sequencing error:
+\begin{equation*}
+    P(r_k,\,\neg se \mid g) = P(r_k\mid \neg se ,\, g)(1-e_k)=P(\beta_k=r_k\mid g)(1-e_k) 
+\end{equation*}
+The four-point distribution that provides $P(\beta_k=r_k\mid g)$ is given in Appendix (???).
+
+In the case that there is a sequencing error, we similarly see:
+\begin{equation*}
+    P(r_k,\, se \mid g) = P(r_k\mid se,\, g)e_k
+\end{equation*}
+Furthermore:
+\begin{equation*}
+    P(r_k\mid se,\, g) = P(\beta_k\neq r_k \mid se,\,g) P(r_k\mid \beta_k\neq r_k,\,se,\,g)
+\end{equation*}
+We expect an error in sequencing the intermediate allele could produce any of the other three alleles with equal probability.
+Equivalently, we find $P(r_k\mid \beta_k \neq r_k,\,se,g)=1/3$.
+
+Since the amplification of $\beta$ from the true underlying genotype is unaffected by sequencing:
+\begin{equation*}
+    P(\beta_k\neq r_k \mid se,\,g)=P(\beta_k\neq r_k\mid g)=1-P(\beta_k=r_k\mid g)
+\end{equation*}
+And therefore:
+\begin{equation*}
+    P(r_k, se \mid g) = e_k \frac{1}{3}\left[1-P(\beta_k=r_k\mid g)\right]
+\end{equation*}
+Finally the likelihood $P(d_{ij}\mid g)$ for cell at a locus for a homozygous genotype is:
+\begin{equation}
+     P(d_{ij}\mid g) = \prod_{k=1}^l \left[ (1-e_k)P(\beta_k=r_k\mid g) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g)) \right]
+\end{equation}
+This equation is used for the homozygous cases $g\in\{0,2\}$.
+This is somewhat more simple than the heterozygous case because an allelic dropout at a homozygous locus would not have a detectable effect on the read values.
+
+\subsubsection*{Heterozygous genotypes and allelic dropout}
+For the case where the underlying genotype is heterozygous, $g=1$, we must account for the possibility of an allelic dropout (ADO) event~\cite{monovar,sciphi}.
+Allelic dropout is when from two homologous chromosomes in a cell only one is amplified, and the other is lost.
+Since each chromosome is a single molecule of DNA in the cell, this is a very frequent event in single cell DNA sequencing.
+
+For the heterozygous case we therefore first marginalize the genotype likelihood on whether or not such an ADO event has occurred:
+\begin{equation*}
+    P(d_{ij}\mid g=1) = P(d_{ij}, \text{ADO} \mid g=1)+ P(d_{ij}, \neg \text{ADO}\mid g=1)
+\end{equation*}
+Letting $P_{ADO}$ be the prior probability that any given locus in a cell has been affected by an allelic dropout event, this expands to:
+\begin{equation*}
+    P(d_{ij}\mid g=1) = P_{ADO}P(d_{ij}\mid \text{ADO},\, g=1) + (1-P_{ADO})P(d_{ij} \mid \neg \text{ADO},\, g=1)
+\end{equation*}
+$P_{ADO}$ is another initial parameter of SCarborSNV, and like in Monovar, is set by default to 0.2.
+This value is set quite high to reflect how common these events are expected to be; if $P_{ADO}=0.2$ we expect that about four or more of the twenty-two homologous pairs of autosomal chromosomes in each cell will be affected by such a dropout.
+
+If an ADO event affects a heterozygous locus, only one allele will remain after the amplification process and hence the likelihood $P(d_{ij}\mid \text{ADO},\, g=1)$ will resemble the homozygous case.
+We assume allelic dropout can affect either  allele with equal probability and hence:
+\begin{equation*}
+    P(d_{ij}\mid \text{ADO},\, g=1) =\frac{1}{2}P(d_{ij}\mid g=0) + \frac{1}{2}P(d_{ij}\mid g=2)
+\end{equation*}
+For the case without allelic dropout, the form of the likelihood is identical to the homozygous case:
+\begin{equation*}
+      P(d_{ij}\mid \neg\text{ADO},\,g=1) = \prod_{k=1}^l \left[ (1-e_k)P(\beta_k=r_k\mid g=1) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g=1)) \right]
+\end{equation*}
+With this final equation we can calculate the genotype likelihoods $P(d_{ij}\,\mid\,g)$ for any $g\in[0,2]$ for every cell at every locus.
+These values can be then be used in a dynamic programming algorithm to calculate the likelihood of the total alternate allele count across each locus: $\Lambda(\sigma) = P(D_{i}\,\mid\,\sigma)$.
 \end{document}
