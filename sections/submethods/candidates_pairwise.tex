@@ -1,5 +1,46 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-We now have 
+The most accurate phylogenetic structure of the sampled tumour cells could be found by searching through the entire tree space and finding a tree that maximizes likelihood or posterior probability.
+If $s$ candidate sites are called in the previous step there are $(2m-3)!!(2m-1)^s$ trees in the search space making this approach infeasible, leading a previous phylogeny aware approach to adopt a more efficient Markov chain Monte Carlo (MCMC) algorithm~\cite{sciphi}.
+This more efficient approach results in an overall asymptotic complexity of $O(nm^3\log(m))$~\cite{sciphi}.
+The Monovar algorithm has an overall asymptotic complexity of $O(nm^3)$~\cite{monovar}.
+
+Seeking a more efficient phylogeny-aware method for single nucleotide variant calling, SCarborSNV uses a neighbour-joining algorithm to infer a cell phylogeny based on estimated pairwise evolutionary distances between cells.
+This approach has an asymptotic complexity of $O(nm^2+m^3)$, and so especially for data sets with many cells we expect it will yeild results faster even than Monovar.
+
+So far at each locus we have calculated a posterior distribution over the alternate allele count: $P(\sigma\,\mid\,D_i)$.
+To compute pairwise distances between cells we need posterior genotype probabilities for each cells genotype, considering the pooled information from all cells at the locus.
+
+Monovar acheives this with a second dynamic programming algorithm that jointly considers the probability of cell $j$ havening genotype $g$ and the remaining $m-1$ cells having an alternate allele count of $\sigma - g$.
+Even with the increased efficiency of Monovar's second dynamic programming algorithm it still has a time complexity of $O(nm^3)$.
+Trading some accuracy for efficiency we instead use a simple binomial model to compute intermediate posterior cell genotype probabilities. 
+The final SNV calling will be done after inferring phylogeny-aware genotype probabilities.
+
+Using Bayes' formula and marginalizing on $\sigma$:
+\begin{equation*}
+P(g_{ij}\mid D_i) = \sum_{\sigma=0}^{2m}  \left[ \frac{P(d_{ij}\mid g_{ij})P(g_{ij}\mid \sigma)}{\sum_g P(d_{ij}\mid g)P(g \mid \sigma)}  P(\sigma\,\mid\,D_i)\right]
+\end{equation*}
+where $P(d_{ij}\mid g)$ are simple cell genotype likelihoods.
+For the conditional prior on cell likelihoods, we use a simple binomial approximation that can be pre computed for all sites
+\begin{equation*}
+P(g\mid \sigma) = \binom{2}{g} \left(\frac{\sigma}{2m}\right)^g \left(1-\frac{\sigma}{2m}\right)^{2-g}
+\end{equation*}
+
+Next we define a pairwise value $\overline{p}_{ab}$, the expected frequency with which nucleotides differ between two cells $a$ and $b$:
+\begin{equation*}
+    \overline{p}_{ab} = \frac{1}{2n}\sum_{i=1}^n\left[ \sum_{|g_{ia}-g_{ib}|=2} 2P(g_{ia})P(g_{ib}) + \sum_{|g_{ia}-g_{ib}|=1} P(g_{ia})P(g_{ib})\right]
+\end{equation*}
+Note we assume that if two cells have the same alternate allele count at a locus they have the same phased genotype at that locus.
+For each pair of cells this value can be computed in linear time in $n$, giving this step an overall time complexity of $O(nm^2)$.
+
+Next we compute an approximately additive distance inspired by the Jukes-Cantor distance~\cite{BSA, JC}:
+\begin{equation}
+    d_{ab} = -\frac{3}{4}\log \left(1-\frac{4}{3}\,\overline{p}_{ab}\right)
+\end{equation}
+Included with the biological cells is a false cell with reference genotype which is included as an outgroup to root the tree.
+After computing $d$ for all pairs of cells, we implement a simple neighbor-joining algorithm based thereupon.
+
+At this stage also we threshold loci for which $P(\sigma \mid D) < 0.5)$ and save these as candidate loci for later genotyping.
+By only considering these loci with a high probability of mutation we further increase the efficiency of this method.
 \end{document}
