@@ -3,44 +3,53 @@
 \begin{document}
 Until now we have considered the genotype likelihoods of individual cells independently.
 In population genetics, it has been found that pooling low coverage sequencing data from multiple samples at each locus can significantly reduce false positive rates and improve SNP calling accuracy~\cite{ledurbin, listatistical}.
-Following in this vein, Monovar and later Sci$\Phi$ found that this approach could be applied to calling somatic SNVs from SCS data: pooling information from across cells instead of individuals~\cite{monovar, sciphi}.
+Following in this vein, Monovar and later Sci$\Phi$ found that similar approaches could be applied to calling somatic SNVs from SCS data: pooling information from across cells instead of individuals~\cite{monovar, sciphi}.
 
 To develop this dependence between cells at a locus, we seek to find a posterior probability distribution over the total alternate allele count summed over all cells at a locus.
 Using Bayes' formula:
 \begin{equation}\label{eq:sitebayes}
 P\left(\sigma \mid D_i\right) = \frac{P(D_i\mid \sigma)P(\sigma)}{\sum_{\sigma'=0}^{2m}[P(D_i\mid \sigma=\sigma')P(\sigma')]}
 \end{equation}
-Having already found the prior probability distribution for this variable $P(\sigma)$, we are left to find the likelihood of total alternate allele count at each locus $P(D_i\,\mid\,\sigma)$ from the individual cell genotypes calculated above.
+Having already found the prior probability distribution for this variable $P(\sigma)$, we are left to find the likelihoods of total alternate allele count at each locus $P(D_i\,\mid\,\sigma)$ from the individual cell genotypes calculated above.
 
 There are various permutations of cell genotypes that may give rise to an alternate allele count of $\sigma$, so this is not a straight-forward task.
 While it may be possible to enumerate and sum over all these permutations, it would require the calculation of $2^m$ values at each locus and therefore would be impractically complex.
 Luckily, however, there is a dynamic programming algorithm that can calculate these likelihoods at each locus in quadratic time~\cite{ledurbin, listatistical, monovar}.
 
-Let the phased genotypes of all $m$ cells at a site be represented by $\vec{G} = (G_1,G_2,\dots,G_m)$ where $G_j\in [0,1]\times[0,1]$ is the phased genotype for cell $j$ (0 = reference, 1 = alternate).
+Let the phased genotypes of all $m$ cells at a site be represented by $\vec{G} = (G_1,G_2,\dots,G_m)$ such that $G_j\in [0,1]\times[0,1]$ be the phased genotype for cell $j$ (0 = reference, 1 = alternate).
 Furthermore let the unphased genotype vector be $\vec{g} = (g_1,g_2,\dots,g_m)$ be such that $g_j = \norm{G_j}_1$.
 Our likelihood for $\sigma$ can therefore be considered
 \begin{equation} \label{eq:phasedlike}
 P(D_i\mid\sigma_i) = \sum_{\vec{G}} P(D_i \mid \vec{G}) P(\vec{G} \mid \sigma_i)
 \end{equation}
 We assume that all phased genotype vectors with a total alternate allele count of $\sigma$ are equally probable.
-Since there are $\binom{2m}{\sigma}$ different phased genotype vectors with total alternate allele count $\sigma$, then for any such $\vec{G}$:
+Across $m$ diploid cells at a locus there are $\binom{2m}{\sigma}$ different phased genotype vectors with total alternate allele count $\sigma$, since there are $2m$ distinct positions that may be mutated.
+Therefore for any such $\vec{G}$:
 \begin{equation*}
 P(\vec{G}\mid \sigma) = \binom{2m}{\sigma}^{-1}
 \end{equation*}
 Since we do not consider phased sequencing data, we must reproduce Equation~\eqref{eq:phasedlike} in an unphased form.
 To begin, we see that the likelihood $P(D_i\mid \vec{G}) = P(D_i\mid \vec{g})$ if $\vec{g}$ is the unphased vector that corresponds to $\vec{G}$, since our cell genotype likelihoods do not consider phasing.
-Note that there are $2^\chi$ phased genotype vectors that correspond to any given unphased genotype vector $\vec{g}$, where $\chi(\vec{g})$ is the number of heterozygous cells in the vector.
+
+Let $\chi(\vec{g})$ is the number of heterozygous cells in the unphased genotype vector $\vec{g}$.
+We see that there are $2^\chi$ phased genotype vectors that correspond to any given unphased genotype vector $\vec{g}$, as there is a choice of which allele is mutated at each heterozygous cell.
 Using this multiplicity, we can now reproduce Equation~\eqref{eq:phasedlike} without reference to phasing.
 \begin{equation*}
-P(D_i\mid\sigma_i) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} P(D_i\mid\vec{g}) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} \prod_{j=1}^{m}P(D_{ij}\mid g_{j})
+P(D_i\mid\sigma_i) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}_1=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} P(D_i\mid\vec{g}) = \sum_{\{\vec{g}\, : \, \norm{\vec{g}}_1=\sigma \}} \frac{2^{\chi(\vec{g})}}{\binom{2m}{\sigma_i}} \prod_{j=1}^{m}P(d_{ij}\mid g_{j})
 \end{equation*}
-Let the function $\delta(\vec{g},\sigma) = 1$ if $\norm{\vec{g}}=\sigma$ otherwise it evaluates to 0.
+Let the function $\delta(\vec{g},\sigma) = 1$ if $\norm{\vec{g}}_1=\sigma$ otherwise it evaluates to 0.
 We can now write the above in a more suggestive form:
 \begin{equation}\label{eq:sitelikelihood}
 P(D_i\mid\sigma_i) = \binom{2m}{\sigma_i}^{-1}\sum_{g_1=0}^2\sum_{g_2=0}^2\dots\sum_{g_m=0}^2 \delta((g_1,\dots g_m),\sigma_i)\left[\prod_{j=1}^{m}\binom{2}{g_j}P(D_{ij}\mid g_{j})\right]
 \end{equation}
-As has been done previously, we can employ a dynamic programming approach to compute these likelihoods for $\sigma$ from cell genotype likelihoods~\cite{monovar, sciphi, ledurbin}.
-If we let $F(k,l)$ be the subproblem objective given by
+
+Following previous approaches, we now employ a dynamic programming approach to compute these likelihoods for $\sigma$ from cell genotype likelihoods~\cite{listatistical, monovar, sciphi, ledurbin}.
+The idea behind the dynamic approach is to consider only a subset of the cells and compute the alternate allele likelihoods therefor.
+We then add one cell at a time to this subset.
+Each additional cell can only increase the alternate allele count by 0, 1 or 2 and as such each value in the current iteration needs to include at most three values from the previous iteration.
+Once we have added all the sampled cells to the subset we can quickly calculate the overall alternate allele count likelihoods.
+
+Let $F(k,l)$ be the subproblem objective given by
 \begin{equation}
 F(k,l) = \begin{cases} \sum_{g_1=0}^2\sum_{g_2=0}^2\dots\sum_{g_k=0}^2 \delta((g_1,\dots g_k),l)\left[\prod_{j=1}^{k}\binom{2}{g_j}P(D_{ij}\mid g_{j})\right] \quad 0\leq l \leq 2k \\
 0 \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad \text{else} \end{cases}
@@ -53,12 +62,16 @@ F(k,l) = F(k-1,l)P(D_{ik}\mid g_k = 0) + 2F(k-1,l-1)P(D_{ik}\mid g_k = 1) + F(k-
 Note that two possible phased genotypes correspond to the heterozygous case, hence the factor of 2 in the second term.
 The base case where $k=1$ corresponds to a single cell
 \begin{equation*}
-F(1,0) = P(D_{i1}\mid g_1 = 0),\;\; F(1,1) = 2P(D_{i1}\mid g_1=1),\;\; F(1,2) = P(D_{i1}\mid g_1 = 2)
+F(1,0) = P(d_{i1}\mid g_1 = 0),\;\; F(1,1) = 2P(d_{i1}\mid g_1=1),\;\; F(1,2) = P(d_{i1}\mid g_1 = 2)
 \end{equation*}
 The values for $F(k,l)$ are memoized in an array and the likelihood given in Equation~\ref{eq:sitelikelihood} can be given by
 \begin{equation}
 P(D_i\mid \sigma_i)=\frac{F(m,\sigma_i)}{\binom{2m}{\sigma_i}}
 \end{equation}
-In this way we can determine the likelihood of all $0\leq \sigma\leq 2m$ which when the priors $P(\sigma)$ compose the sum in Equation~\eqref{eq:sitebayes}.
-Sites which have a posterior probability of being variant greater than 0.5(???) will be called as variant candidates.
+In this way we can determine the likelihood of all $0\leq \sigma\leq 2m$.
+As we see in Equation~\eqref{eq:sitebayes}, the normalized product of these likelihoods with the priors $P(\sigma)$ gives us a posterior probability distribution over $\sigma$ for each locus.
+
+The dynamic programming algorithm requires $m$ iterations to arrive at the final likelihoods considering all cells.
+At every iteration up to $2m$ values are calculated, each in constant time.
+Therefore the likelihoods at each locus are calculated in $O(m^2)$ time, resulting in an overall time complexity of $O(nm^2)$.
 \end{document}
