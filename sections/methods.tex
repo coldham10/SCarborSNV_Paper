@@ -27,22 +27,17 @@
 \subfile{sections/submethods/phylo1}
 
 %TODO does binomial model account for large number of potential homozygotes?
-%TODO make sure nothing penalizes read depth
-%TODO Idea by Yufeng: use a more restrictive filter on sites to build the tree, then open up to more for sequencing
-
-%\subsection{Parameter reestimation and second cell phylogeny}
-%is this necessary? Overall mutation rate, $P(H_t\mid H),\,P(H),\,\lambda,\,P(SNP_T\mid SNP),\,\dots$\\
-%To some extent can be derived from papers like 21 breasts and metastatic. Can be reestimated?\\
-%do we just reestimate parameters or update priors on cell loci? updating priors could be fun, but maybe wait til completed to see if it brings additional benefit.\\
-%E.g. for each site: likelihood clonal = $\prod_j^m 1-P(g=0)$. (?) If likelihood clonal > likelihood not clonal, add 1 to clonal count. count/n = new prior on clonal mutations. Can do similar ML/EM estimations for all params, get new priors, re estimate posteriors.... Do at end. Note with new priors do not have to redo DP, as memoized values do not change(?)
-%TODO implement this if necessary and if time permits
-%TODO to estimate params post sampling candidates, can just use expectation from posteriors. E.g. P(SNV)/site = average 1-P(sig=0). P(LOH) at site = 3*p(g=2) at site = 3*[1-\prod_j[p(g_j=0)+p(g_j=1)]
 
 \subsection{Genotyping single cells}
 \subfile{sections/submethods/inference}
 
 \subsection{Additional computational methods}
-Stirlings approximation for $T(a,b)$. Pre computation /memoization of priors where possible. Log space.
+Some likelihoods used in SCarborSNV may be the product of many small probabilities, especially if read depth is high.
+Therefore, despite the use of extended precision \texttt{long double} types, there is a possibility of floating point underflow occurring when manipulating and storing these values.
+Therefore all of SCarborSNV's calculations are done in log-space.
+
+Sums of probabilities or likelihoods would require converting back from log-space and potential underflow.
+Therefore SCarborSNV has implemented LogSumExp functions to minimize potential underflow in these situations.
 
 
 \end{document}

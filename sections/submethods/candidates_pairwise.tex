@@ -18,9 +18,9 @@ Trading some accuracy for efficiency we instead use a simple binomial model to c
 The final SNV calling will be done after inferring phylogeny-aware genotype probabilities.
 
 Using Bayes' formula and marginalizing on $\sigma$:
-\begin{equation*}
+\begin{equation}\label{eq:posteriorgenotypes}
 P(g_{ij}\mid D_i) = \sum_{\sigma=0}^{2m}  \left[ \frac{P(d_{ij}\mid g_{ij})P(g_{ij}\mid \sigma)}{\sum_g P(d_{ij}\mid g)P(g \mid \sigma)}  P(\sigma\,\mid\,D_i)\right]
-\end{equation*}
+\end{equation}
 where $P(d_{ij}\mid g)$ are simple cell genotype likelihoods.
 For the conditional prior on cell likelihoods, we use a simple binomial approximation that can be pre computed for all sites
 \begin{equation*}
