@@ -7,23 +7,24 @@ The majority of sites will not include a somatic SNV (sSNV); we say that any sit
 P(\sigma)=P(\sigma\mid\text{sSNV})\lambda+P(\sigma\mid\neg\text{sSNV})(1-\lambda)
 \end{equation}
 Any given sample of single cells will only represent some subtree of a full cell phylogeny.
-As such, when considering the case where there is a sSNV at the locus we can further break down the prior into the case where the sSNV is ancestral to all sampled cells and the case where where the SNV occurs within the subtree rooted at the most recent common ancestor (MRCA) of the cells sampled.
+As such, when considering the case where there is a sSNV at the locus we can further break down the prior into the case where the sSNV is ancestral to all sampled cells and the case where the SNV occurs within the subtree rooted at the most recent common ancestor (MRCA) of the cells sampled.
 We denote the case where the mutation occurs within this subtree as $\text{SNV}_T$.
 \begin{equation} \label{eq:somaticsnv}
 P(\sigma\mid\text{sSNV})=P(\sigma\mid \text{SNV}_T)P(\text{SNV}_T\mid \text{sSNV})+P(\sigma\mid \text{sSNV},\,\neg\text{SNV}_T)(1-P(\text{SNV}_T\mid \text{sSNV}))
 \end{equation}
 \subsubsection*{Ploidy changes}
-A common and distinctive characteristic of cancer is that many tumor cells may exhibit aneuploidy or chromosomal abnormaities~\cite{gao2016punctuated, 21breasts, aneuploidy, merlo2006cancer, onecelltime}.
+A common and distinctive characteristic of cancer is that many tumor cells may exhibit aneuploidy or chromosomal abnormalities~\cite{gao2016punctuated, 21breasts, aneuploidy, merlo2006cancer, onecelltime}.
 %TODO cite others further down
 For simplicity, we will disregard polyploidy and focus only on the case where loci become haploid.
 This sort of mutation can result in lost information regarding SNVs, as a loss of heterozygosity can lead to a locus being read as homozygous~\cite{sciphi}.
-Note that this is an in vivo effect, distinct from allelic dropout which occurs in vitro during DNA ampification.
-We will model such occurences as a sudden switch to homozygosity, as we cannot reliably distinguish diplod homozygosity from haploidy in the genomic SCS data, which already has significantly uneven coverage and depth~\cite{monovar, scprimer}.
+Note that this is an in vivo effect, distinct from allelic dropout which occurs in vitro during DNA amplification.
+We will model such occurrences as a sudden switch to homozygosity, as we cannot reliably distinguish diploid homozygosity from haploidy in the genomic SCS data, which already has significantly uneven coverage and depth~\cite{monovar, scprimer}.
 Let $H$ be the event that the locus under examination has become haploid, and $H_T$ be the case that this mutation has occured within subtree rooted at the MRCA of all sequenced cells.
 \begin{equation}
 P(\sigma \mid \text{SNV}_T) = P(\sigma\mid\text{SNV}_T,H)P(H) + P(\sigma\mid\text{SNV}_T,\neg H)(1-P(H)) 
 \end{equation}
-By default we set the value of $P(H)$ to .09 (See Appendix A). In the simplest case, we consider the prior probability of an alternate allele count of $\sigma$ given a point mutation occured within the subtree and the locus remained diploid across all sampled cells.
+% XXX Could reference Appendix A to get this value from binomial approx 
+By default we set the value of $P(H)$ to .09. In the simplest case, we consider the prior probability of an alternate allele count of $\sigma$ given a point mutation occured within the subtree and the locus remained diploid across all sampled cells.
 Assuming infinite sites, in such a scenario mutations would only be heterozygous.
 \begin{equation*}
 P(\sigma\mid\text{SNV}_T,\neg H) = \begin{cases} \frac{2m-1}{2(m-1)} T(m,\sigma) \qquad 0<\sigma< m\\ 0 \qquad \qquad \quad \text{else}\end{cases}

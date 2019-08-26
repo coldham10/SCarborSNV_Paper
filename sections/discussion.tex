@@ -1,0 +1,76 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+This thesis is an exploratory work to prove the concept of a phylogeny-aware SNV detection algorithm for SCS data that can have quadratic time complexity in the number of cells.
+As such, the massive speedup of using SCarborSNV over similar tools is very encouraging for the use of SCarborSNV as a medical and research tool and for the development of a more mature and robust tool derived therefrom.
+
+State-of-the-art tools such as Monovar and Sci$\Phi$ are slow enough to put a major restriction on the size of SCS datasets that can be analyzed.
+SCarborSNV therefore paves the way for a new era of massively multicellular single cell DNA sequencing analysis.
+In the context of tumor research and individualized therapies, this could allow the improved analysis of the intra-tumor heterogeneity of cancer from an individual patient, or allow more practical research into the nature of and mechanisms behind ITH itself.
+
+There are many improvements to SCarborSNV as well that were beyond the scope of this initial project.
+These include parallelization, parameter re-estimation using EM and more robust neighbor-joining-like tree building.
+The upwards-downwards algorithm for inferring genotypes from a phylogeny also has potential for revision and improvement.
+Even as it currently exists, SCarborSNV could be very useful for an initial examination of SCS datasets with many cells: the high recall rate makes it useful for identifying potential mutations that can be verified by other tools, especially because running SCarborSNV requires a minimal time investment.
+
+\subsection{Analysis of results}
+The simulated results for SCarborSNV show lots of promise for both high precision and recall of both mutant sites and individual cells.
+For the simulated data sets of 10 related cells each with a 4000bp genome, SCarborSNV performed similarly and even better than the state-of-the-art.
+These results somewhat contradict those in \cite{sciphi} however, showing both higher precision and recall for Monovar over Sci$\Phi$.
+Since the simulator design for our tests was much more rudimentary than that used in \cite{sciphi}, further benchmarking will have to be done to compare the two tools.
+
+Based on the 10-cell results, the tree reconstruction accuracy of SCarborSNV was similar to that of Sci$\Phi$.
+This suggests that even if the method of inferring genotypes from a reconstructed tree could be improved, the tree building itself is likely to be sufficiently accurate to infer unread genotypes despite the massively reduced time to infer the tree  when compared to Sci$\Phi$.
+
+On the whole, SCarborSNV has proved to be a very promising tool for fast discovery of mutations from SCS data.
+At the least, SCarborSNV has shown that much faster SCS inference is possible than by current tools.
+
+\subsection{Parallelization}
+While not yet implemented, SCarborSNV can be optimally parallelized for most of the stages of the algorithm.
+For the determination of cell genotype likelihoods all sites are considered completely independentally, and therefore all $n$ of these computations could easily be done on multiple processors.
+After the quick pre-computation of $\sigma$ priors, the stages of SCarborSNV before tree building could be optimally parallelized on up to $n$ CREW PRAM processors.
+
+The neighbor joining stage of SCarborSNV may not be as straightforward to parallelize nor optimal, but since the tree reconstruction only needs to occur once it is unlikely that continuing to execute this part sequentially will impose a major slowdown for the overall program.
+
+For the last stage of upwards-downwards genotype inference we again treat sites independentally, and again we could optimally parallelize this section for up to $n'$ processors, where $n'$ is the number of candidate loci.
+
+Furthermore, SCarborSNV is implemented in C with only standard libraries, and therefore parallel implementaion using POSIX threads is possible without too much modification to the existing program structure.
+
+\subsection{Potential improvements: EM, GCNs and maximum likelihood}
+A potential improvement to the SCarborSNV algorithm would be to include phylogeny building and genotyping in an EM-like loop.
+At the stage of the upwards-downwards genotype inference algorithm, the probability of an LOH event, clonal mutation, allelic dropout and other events could be stored.
+These calls of various data artifacts or biological events could be used to reestimate intial parameters for successively more accurate calls.
+
+Different approaches for such parameter reestimation would need to be explored.
+Since SCarborSNV is reliant on several initial global parameters such as somatic mutation frequency, these initial parameters could be reestimated and the whole program could be run again.
+Another method may be to store the phylogenetically inferred posterior genotypes for each cell at each locus and then use these values to recompute pairwise distances to rebuild the approximate phylogeny.
+Some combination of these iterative methods could also be used.
+If one or a fixed number of iterations of this step were applied, SCarborSNV would maintain quadratic time complexity in the number of cells and at worst experience linear slowdown.
+Since SCarborSNV is so much faster practically than similar tools it could very likely perform with competitive speed even with multiple iterations of the main program.
+
+Another potential avenue for improvement to SCarborSNV would be the use of a graph convolutional neural network to infer genotypes from the approximate phylogeny.
+Because this stage of the algorithm receives a tree structure and normalized posterior probabilities as input, it is possible that a GCN could be pre trained via simulation once as part of the development of the tool and only optionally retrained by users.
+
+One final area of future exploration is phylogeny aware genotype calling via maximum likelihood attachment.
+Using the $\pi$ values computed in the upwards-downwards algorithm, a likelihood can be assigned to each attachment position of a SNV in the inferred tree.
+By including a pseudo-branch not in the tree, a mutation attachment to which represents a welltype locus, the cell genotypes could be called based on this maximum likelihood position.
+Even if not ultimately used to call genotypes, such maximum likelihood estimates could be used in an iterative EM version of the algorithm.
+
+\subsection{Robustness}
+Currently SCarborSNV is quite robust and can handle unknown nucleotides, indels and some missing data.
+If there is some pair of cells in a dataset that share no overlapping sequenced loci with each other, then a pairwise distance between these cells cannot be computed.
+Since all pairwise distances are needed for the neighbour joining algorithm this causes SCarborSNV to fail.
+For normal sequencing data of whole genomes or whole exomes this should be a rare occurrence, however there are potential ways to handle this case.
+For example, there are iterative methods to approximately impute missing pairwise distances from a partial distance matrix~\cite{missingNJ}.
+
+\subsection{Conclusion}
+Single cell DNA sequencing is in its infancy, but it shows great promsie to accurately resolve somatic genetic heterogeneity, including intra-tumor heterogeneity.
+Since the genetic diversity of competing subclones in a tumor allow it to evolve, ITH is a direct cause of treatment resistance in cancer~\cite{metastatic, merlo2006cancer, greaves2012clonal}.
+As SCS data become cheaper and more available, the ability to analyze more of these data is increasingly important for research and individualized therapy.
+While tools such as Sci$\Phi$ and Monovar have proved invaluable for SCS analysis, their complexity ultimately will limit the size of SCS datasets that can be analyzed.
+
+Despite some room for improvement and more rigorous testing with more realistic and variable simulated data, SCarborSNV has pioneered a new direction in efficient phylogeny-aware SCS data analysis that may open up massively multicellular SCS studies, with thousands of cells or more, rather than 10s.
+
+\end{document}
+

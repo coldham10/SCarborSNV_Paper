@@ -1,0 +1,215 @@
+\begin{thebibliography}{10}
+
+\bibitem{monovar}
+Hamim Zafar, Yong Wang, Luay Nakhleh, Nicholas Navin, and Ken Chen.
+\newblock Monovar: single-nucleotide variant detection in single cells.
+\newblock {\em Nature methods}, 13(6):505, 2016.
+
+\bibitem{sciphi}
+Jochen Singer, Jack Kuipers, Katharina Jahn, and Niko Beerenwinkel.
+\newblock Single-cell mutation identification via phylogenetic inference.
+\newblock {\em Nature communications}, 9(1):5144, 2018.
+
+\bibitem{BSA}
+Richard Durbin, Sean~R Eddy, Anders Krogh, and Graeme Mitchison.
+\newblock {\em Biological sequence analysis: probabilistic models of proteins
+  and nucleic acids}.
+\newblock Cambridge university press, 1998.
+
+\bibitem{NJ}
+Naruya Saitou and Masatoshi Nei.
+\newblock The neighbor-joining method: a new method for reconstructing
+  phylogenetic trees.
+\newblock {\em Molecular biology and evolution}, 4(4):406--425, 1987.
+
+\bibitem{EmperorMaladies}
+Siddhartha Mukherjee.
+\newblock {\em The emperor of all maladies: a biography of cancer}.
+\newblock Simon and Schuster, 2010.
+
+\bibitem{bigbang}
+Andrea Sottoriva, Haeyoun Kang, Zhicheng Ma, Trevor~A Graham, Matthew~P
+  Salomon, Junsong Zhao, Paul Marjoram, Kimberly Siegmund, Michael~F Press,
+  Darryl Shibata, et~al.
+\newblock A big bang model of human colorectal tumor growth.
+\newblock {\em Nature genetics}, 47(3):209, 2015.
+
+\bibitem{metastatic}
+Gunes Gundem, Peter Van~Loo, Barbara Kremeyer, Ludmil~B Alexandrov, Jose~MC
+  Tubio, Elli Papaemmanuil, Daniel~S Brewer, Heini~ML Kallio, Gunilla
+  H{\"o}gn{\"a}s, Matti Annala, et~al.
+\newblock The evolutionary history of lethal metastatic prostate cancer.
+\newblock {\em Nature}, 520(7547):353, 2015.
+
+\bibitem{21breasts}
+Serena Nik-Zainal, Peter Van~Loo, David~C Wedge, Ludmil~B Alexandrov,
+  Christopher~D Greenman, King~Wai Lau, Keiran Raine, David Jones, John
+  Marshall, Manasa Ramakrishna, et~al.
+\newblock The life history of 21 breast cancers.
+\newblock {\em Cell}, 149(5):994--1007, 2012.
+
+\bibitem{21breasts2}
+Serena Nik-Zainal, Ludmil~B Alexandrov, David~C Wedge, Peter Van~Loo,
+  Christopher~D Greenman, Keiran Raine, David Jones, Jonathan Hinton, John
+  Marshall, Lucy~A Stebbings, et~al.
+\newblock Mutational processes molding the genomes of 21 breast cancers.
+\newblock {\em Cell}, 149(5):979--993, 2012.
+
+\bibitem{greaves2012clonal}
+Mel Greaves and Carlo~C Maley.
+\newblock Clonal evolution in cancer.
+\newblock {\em Nature}, 481(7381):306, 2012.
+
+\bibitem{merlo2006cancer}
+Lauren~MF Merlo, John~W Pepper, Brian~J Reid, and Carlo~C Maley.
+\newblock Cancer as an evolutionary and ecological process.
+\newblock {\em Nature reviews cancer}, 6(12):924, 2006.
+
+\bibitem{aneuploidy}
+Harith Rajagopalan and Christoph Lengauer.
+\newblock Aneuploidy and cancer.
+\newblock {\em Nature}, 432(7015):338, 2004.
+
+\bibitem{sequencesequencers}
+James~M Heather and Benjamin Chain.
+\newblock The sequence of sequencers: The history of sequencing dna.
+\newblock {\em Genomics}, 107(1):1--8, 2016.
+
+\bibitem{massivelyparallel}
+Tracy Tucker, Marco Marra, and Jan~M Friedman.
+\newblock Massively parallel sequencing: the next big thing in genetic
+  medicine.
+\newblock {\em The American Journal of Human Genetics}, 85(2):142--154, 2009.
+
+\bibitem{SCSadvance}
+Yong Wang and Nicholas~E Navin.
+\newblock Advances and applications of single-cell sequencing technologies.
+\newblock {\em Molecular cell}, 58(4):598--609, 2015.
+
+\bibitem{scprimer}
+Tal Nawy.
+\newblock Single-cell sequencing.
+\newblock {\em Nature methods}, 11(1):18, 2013.
+
+\bibitem{clonevol}
+HX~Dang, BS~White, SM~Foltz, CA~Miller, Jingqin Luo, RC~Fields, and CA~Maher.
+\newblock Clonevol: clonal ordering and visualization in cancer sequencing.
+\newblock {\em Annals of oncology}, 28(12):3076--3082, 2017.
+
+\bibitem{onecelltime}
+Nicholas~E Navin.
+\newblock Cancer genomics: one cell at a time.
+\newblock {\em Genome biology}, 15(8):452, 2014.
+
+\bibitem{rnaseq}
+Zhong Wang, Mark Gerstein, and Michael Snyder.
+\newblock Rna-seq: a revolutionary tool for transcriptomics.
+\newblock {\em Nature reviews genetics}, 10(1):57, 2009.
+
+\bibitem{cellity}
+Tomislav Ilicic, Jong~Kyoung Kim, Aleksandra~A Kolodziejczyk, Frederik~Otzen
+  Bagger, Davis~James McCarthy, John~C Marioni, and Sarah~A Teichmann.
+\newblock Classification of low quality cells from single-cell rna-seq data.
+\newblock {\em Genome biology}, 17(1):29, 2016.
+
+\bibitem{biochemistry}
+J.M. Berg, J.L. Tymoczko, and L.~Stryer.
+\newblock {\em Biochemistry}.
+\newblock Biochemistry (Berg). W. H. Freeman, 2007.
+
+\bibitem{gao2016punctuated}
+Ruli Gao, Alexander Davis, Thomas~O McDonald, Emi Sei, Xiuqing Shi, Yong Wang,
+  Pei-Ching Tsai, Anna Casasent, Jill Waters, Hong Zhang, et~al.
+\newblock Punctuated copy number evolution and clonal stasis in triple-negative
+  breast cancer.
+\newblock {\em Nature genetics}, 48(10):1119, 2016.
+
+\bibitem{greenman2007patterns}
+Christopher Greenman, Philip Stephens, Raffaella Smith, Gillian~L Dalgliesh,
+  Christopher Hunter, Graham Bignell, Helen Davies, Jon Teague, Adam Butler,
+  Claire Stevens, et~al.
+\newblock Patterns of somatic mutation in human cancer genomes.
+\newblock {\em Nature}, 446(7132):153, 2007.
+
+\bibitem{alexandrov2013signatures}
+Ludmil~B Alexandrov, Serena Nik-Zainal, David~C Wedge, Samuel~AJR Aparicio, Sam
+  Behjati, Andrew~V Biankin, Graham~R Bignell, Niccolo Bolli, Ake Borg,
+  Anne-Lise B{\o}rresen-Dale, et~al.
+\newblock Signatures of mutational processes in human cancer.
+\newblock {\em Nature}, 500(7463):415, 2013.
+
+\bibitem{JC}
+Thomas~H Jukes, Charles~R Cantor, et~al.
+\newblock Evolution of protein molecules.
+\newblock {\em Mammalian protein metabolism}, 3(21):132, 1969.
+
+\bibitem{neutralevoltumour}
+Marc~J Williams, Benjamin Werner, Chris~P Barnes, Trevor~A Graham, and Andrea
+  Sottoriva.
+\newblock Identification of neutral tumor evolution across cancer types.
+\newblock {\em Nature genetics}, 48(3):238, 2016.
+
+\bibitem{numcells}
+Ugo Del~Monte.
+\newblock Does the cell number $10^9$ still really fit one gram of tumor
+  tissue?
+\newblock {\em Cell Cycle}, 8(3):505--506, 2009.
+
+\bibitem{yachida}
+Shinichi Yachida, Si{\^a}n Jones, Ivana Bozic, Tibor Antal, Rebecca Leary,
+  Baojin Fu, Mihoko Kamiyama, Ralph~H Hruban, James~R Eshleman, Martin~A Nowak,
+  et~al.
+\newblock Distant metastasis occurs late during the genetic evolution of
+  pancreatic cancer.
+\newblock {\em Nature}, 467(7319):1114, 2010.
+
+\bibitem{listatistical}
+Heng Li.
+\newblock A statistical framework for snp calling, mutation discovery,
+  association mapping and population genetical parameter estimation from
+  sequencing data.
+\newblock {\em Bioinformatics}, 27(21):2987--2993, 2011.
+
+\bibitem{ledurbin}
+Si~Quang Le and Richard Durbin.
+\newblock {SNP} detection and genotyping from low-coverage sequencing data on
+  multiple diploid samples.
+\newblock {\em Genome research}, 21(6):952--960, 2011.
+
+\bibitem{negedge}
+Mary~K Kuhner and Joseph Felsenstein.
+\newblock A simulation comparison of phylogeny algorithms under equal and
+  unequal evolutionary rates.
+\newblock {\em Molecular biology and evolution}, 11(3):459--468, 1994.
+
+\bibitem{RFmetric}
+David~F Robinson and Leslie~R Foulds.
+\newblock Comparison of phylogenetic trees.
+\newblock {\em Mathematical biosciences}, 53(1-2):131--147, 1981.
+
+\bibitem{TreeCmp}
+Damian Bogdanowicz, Krzysztof Giaro, and Borys Wr{\'o}bel.
+\newblock Treecmp: comparison of trees in polynomial time.
+\newblock {\em Evolutionary Bioinformatics}, 8:EBO--S9657, 2012.
+
+\bibitem{BWAMEM}
+Heng Li.
+\newblock Aligning sequence reads, clone sequences and assembly contigs with
+  bwa-mem.
+\newblock {\em arXiv preprint arXiv:1303.3997}, 2013.
+
+\bibitem{missingNJ}
+Vladimir Makarenkov and Fran{\c{c}}ois-Joseph Lapointe.
+\newblock A weighted least-squares approach for inferring phylogenies from
+  incomplete distance matrices.
+\newblock {\em Bioinformatics}, 20(13):2113--2121, 2004.
+
+\bibitem{sciclone}
+Christopher~A Miller, Brian~S White, Nathan~D Dees, Malachi Griffith, John~S
+  Welch, Obi~L Griffith, Ravi Vij, Michael~H Tomasson, Timothy~A Graubert,
+  Matthew~J Walter, et~al.
+\newblock Sci{C}lone: inferring clonal architecture and tracking the spatial
+  and temporal patterns of tumor evolution.
+\newblock {\em PLoS computational biology}, 10(8):e1003665, 2014.
+
+\end{thebibliography}

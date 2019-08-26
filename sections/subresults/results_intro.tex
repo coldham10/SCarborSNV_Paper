@@ -5,10 +5,9 @@ Since there is no way of establishing a ground truth of which cells contain whic
 SCarborSNV uses phylogenetic inference to overcome some of the errors of low coverage SCS data, and therefore the simulated data must reflect a phylogenetic relationship, with mutations being attached to random points of the phylogeny.
 
 We therefore have created a simulator to generate a phylogeny of cells with different mutations, and then introduce the error profile characteristic of single-cell DNA sequencing by sampling amplification errors, sequencing errors and allelic dropout events.
-To ensure that SCarborSNV also works on real datasets, we have also compared SCarborSNV to Monovar and Sci$\Phi$ on real datasets, however since there is no ground truth for these results they are somewhat more limited.
+To ensure that SCarborSNV also works on real data, we have also compared SCarborSNV to Monovar and Sci$\Phi$ on a clinical cancer SCS dataset, however since there is no ground truth for these results they are somewhat more limited.
 
 We analyze SCarborSNV both on its own and in comparison to similar tools on a number of metrics including accuracy of phylogeny, accuracy of site calls, accuracy of cell calls and overall time taken.
-
-%TODO XXX sum up results.
+We find that SCarborSNV is drastically faster than similar tools with high recall and reasonable precision in calling simulated mutations.
 \end{document}
 

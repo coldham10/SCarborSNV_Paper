@@ -1,6 +1,21 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
+While simulated data are very useful since a ground truth can be used to determine accuracy, it is important to see also how well SCarborSNV works on real data.
+This however requires a significant amount of preprocessing to get the real data from a sequencing machine to be ready for SCarborSNV and its similar tools to use.
+Furthermore, real datasets have significantly longer genomes than the simulated examples above.
+Since Sci$\Phi$ in particular takes so long to run, for practical reasons we only compare SCarborSNV on a portion of the genome by truncating the input pileup file.
+While this disadvantages both phylogeny aware algorithms by reducing the available kinship information, it should disadvantage them equally.
+It should be noted, however, that this restriction may make Monovar perform comparitively better than if this test were to be done on the full genome.
+
+\subsubsection*{Data and preprocessing}
+We here use the same dataset used by \cite{sciphi} (accession: SRA053195), which includes DNA sequencing data from 16 single tumor cells from a triple negative breast cancer patient.
+The raw FASTQ files were downloaded from the NCBI Sequence Read Archive using the SRAToolkit's fastq-dump program.
+
+Next we indexed the hg19 human genome with the BWA index command, and then used BWA-mem to perform the Burrows-Wheeler alignment, aligning the reads from each of the cell samples to the now indexed hg19~\cite{BWAMEM}.
+We then added unique read-group identifiers to each aligned BAM file created by BWA using the Picard tool `AddOrReplaceReadGroups'.
+
+\large{TODO}
 
 \end{document}
 

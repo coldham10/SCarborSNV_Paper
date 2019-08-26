@@ -1,15 +1,15 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-To simulate datasets to benchmark SCarborSNV, modelled various aspects of the random process of tumor evolution, amplification and sequencing.
+To simulate datasets to benchmark SCarborSNV, we have modelled various aspects of the random process of tumor evolution, amplification and sequencing.
 We first define an overall genome length, as well as chromosome length.
 In the first stage we have a single node that is allowed to acquire mutations over a set number of generations.
 At each generation the node has a fixed probability of acquiring a new point mutation anywhere within the genome range.
-At each generation there is also a small probability that a chromosome will experience a LOH, in which case that chromosome will be marked as homozygous with a one chromosome randomly chosen dropped from the pair.
-This process is supposed to model germline and clonal mutations.
+At each generation there is also a small probability that a chromosome will experience a LOH, in which case that chromosome will be marked as homozygous with one chromosome randomly chosen dropped from the homologous pair.
+This first stage is intended to model germline and clonal mutations.
 
 After a fixed number of generations, the node can still acquire SNVs and chromosomal abberations, but also has some chance of splitting into two nodes.
-In this eventuality the first node is removed from the list active nodes, and the two new nodes are added.
+In this eventuality, the first node is removed from the list active nodes, and the two new nodes are added.
 Hereafter at each generation each active node has a random chance of acquiring  a SNV, acquiring a ploidy change or branching.
 The descendents of a node both gain a copy of the parent's mutational history.
 
@@ -20,7 +20,7 @@ Then for each `read' an intermediate allele is `amplified' with some probability
 Finally a read error is sampled from a Gaussian distribution about an average read error, and the intermediate allele is `sequenced' with a chance of error equal to the read error.
 
 The final sequenced read and associated quality score is then written to a pileup file.
-The true genotypes before sequencing are written to a VCF file for reference.
+The true genotypes before sequencing (or allelic dropout simulations) are written to a VCF file for reference.
 
 \end{document}
 

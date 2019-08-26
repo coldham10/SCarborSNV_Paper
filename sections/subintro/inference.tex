@@ -3,24 +3,24 @@
 
 \begin{document}
 For a set of $m$ sequenced cells, there are $(2m-3)!!$ possible rooted phylogenetic trees that may relate them.
-Furthermore if a point mutation has occurred at a locus, the mutation could have possibly occurred on any of the $2m-1$  branches of the tree resulting in a total of $(2m-1)!!$ possible structures to consider at any locus~\cite{BSA}.
+Furthermore, if a point mutation has occurred at a locus, the mutation could have possibly occurred on any of the $2m-1$  branches of the tree resulting in a total of $(2m-1)!!$ possible structures to consider at any locus~\cite{BSA}.
 A truly rigorous statistical analysis of the phylogenetic relationship between cells would have to compute the likelihood of the read data marginalized on all of these $(2m-1)!!$ trees, which for any large number of single cells is practically infeasible.
 
 Since a rigorous search through the tree space is therefore highly impractical, a heuristic search through a subspace of trees or an approximate phylogeny is required.
-Herein lies a major algorithmic challenge: using the knowledge of a shared ancestral relationship between cells to improve SNV calling accuracy while maintaing practical efficiency.
+Herein lies a major algorithmic challenge: using the knowledge of a shared ancestral relationship between cells to improve SNV calling accuracy while maintaining practical efficiency.
 The Sci$\Phi$ algorithm uses a Markov chain Monte Carlo (MCMC) technique to heuristically search through an increasingly likely subspace of cell phylogenies and weight the final inference based on this subset of trees.
 The success of this method has proven the possibility of using phylogenetic inference to improve SNV calling accuracy without incurring massive algorithmic complexity.
 The goal of SCarborSNV is to reduce this complexity further while still leveraging the prior information of cell kinship to improve calling accuracy over phylogeny-agnostic methods.
-In lieu of the MCMC algorithm employed by Sci$\Phi$, SCarborSNV uses an efficient neighbour-joining algorithm to infer information from an approximate phylogeny.
+In lieu of the MCMC algorithm employed by Sci$\Phi$, SCarborSNV uses an efficient neighbor joining algorithm to infer information from an approximate phylogeny.
 
 Neighbor-joining is an agglomerative algorithm for constructing unrooted phylogenetic trees from evolutionary distances~\cite{NJ}.
 The closest taxa (in this case cells) are joined as neighbors, and the distance between this new cluster and all other taxa is computed by assuming that the evolutionary distances are approximately additive~\cite{BSA}.
-This process is repeated, replacing neighbouring taxa with a new node representing their cluster until all taxa are joined in a phylogeny.
+This process is repeated, replacing neighboring taxa with a new node representing their cluster until all taxa are joined in a phylogeny.
 
 To compute the pairwise evolutionary distance between two cells we first find the expected frequency of different alleles between them and then convert this frequency into a more approximately additive distance resembling the Jukes-Cantor distance~\cite{JC, BSA}.
 
-The asymptotic time complexity of the core neighbour joining algorithm is $O(m^3)$.
-However, only computing the pairwise distances involves scanning through the entire genome, and the neighbour joining itself only needs to be completed once.
+The asymptotic time complexity of the core neighbor joining algorithm is $O(m^3)$.
+However, only computing the pairwise distances involves scanning through the entire genome, and the neighbor joining itself only needs to be completed once.
 Therefore the overall complexity of the phylogeny inference algorithm is $O(nm^2 + m^3) = O(m^2(n+m))$, and since the size of $n$ (possibly upwards of $3\times10^9$) dominates $m$ (currently $<100$, possibly up to the order of $10^3$ in the future), for all practical purposes the phylogeny estimation in SCarborSNV is linear in $n$ and quadratic in $m$.
 This potential for an asymptotic speedup over the state-of-the-art is the core motivation for SCarborSNV, and may hopefully expand the possibility of single cell SNV calling to samples of thousands of cells.
 
