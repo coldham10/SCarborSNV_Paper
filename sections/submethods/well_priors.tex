@@ -1,16 +1,16 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-We have so far considered the prior probability of alternate allele counts at a locus given that a somatic SNV has occured at that locus. The majority of loci, however, will be unaffected by sSNVs, although may still contain germline point mutations. Referring back to Equation~\eqref{eq:overallprior} we must consider the prior probabilities of $\sigma$ for sites without sSNVs. Note, however, that such a site may still be affected by anneuploidy.
+We have so far considered the prior probability of alternate allele counts at a locus given that a somatic SNV has occurred at that locus. The majority of loci, however, will be unaffected by sSNVs, although may still contain germline point mutations. Referring back to Equation~\eqref{eq:overallprior} we must consider the prior probabilities of $\sigma$ for sites without sSNVs. Note, however, that such a site may still be affected by aneuploidy.
 \begin{equation}
 P(\sigma\mid\neg\text{sSNV})=P(\sigma\mid\neg\text{sSNV},H)P(H)+P(\sigma\mid\neg\text{sSNV},\neg H)(1-P(H))
 \end{equation} 
-In the case where there is no sSNV and no anneuploidy, we simply assume Hardy-Weinberg equilibrium, with a germline mutation rate of $\mu$. We set the value of $\mu$ relatively high at $0.1$ to reduce false positive errors.
+In the case where there is no sSNV and no aneuploidy, we simply assume Hardy-Weinberg equilibrium, with a germline mutation rate of $\mu$. We set the value of $\mu$ relatively high at $0.1$ to reduce false positive errors.
 %TODO this is something to test. Grid search all parameter space on new data.\\
 \begin{equation*}
 P(\sigma\mid\neg\text{sSNV},\,\neg H) = \begin{cases} \mu^2\qquad\qquad\quad\,\sigma=2m\\ 2\mu(1-\mu) \qquad \sigma = m \\ (1-\mu)^2 \qquad \; \;\, \sigma=0 \\ 0 \qquad\qquad\quad\;\;\; \text{else} \end{cases}
 \end{equation*}
-Continuing to assume HWE for the germline genotype, anneuploidy will only affect the alternate allele count for a heterozygous germline genotype. Here again we assume either allele may be dropped with equal probability.
+Continuing to assume HWE for the germline genotype, aneuploidy will only affect the alternate allele count for a heterozygous germline genotype. Here again we assume either allele may be dropped with equal probability.
 \begin{equation*}
 P(\sigma\mid\neg\text{sSNV},\, H) = \begin{cases} \mu^2 + \mu(1-\mu)(1-P(H_T\mid H))\qquad\qquad\quad\;\; \sigma=2m\\
 \mu(1-\mu)P(H_T\mid H)\frac{2m-1}{2(m-1)}T(m,m-\sigma) \qquad 0<\sigma<m\\

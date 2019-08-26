@@ -5,12 +5,12 @@
 From the matrix of pairwise evolutionary distances $d$ we can now build a single phylogeny to relate the $m$ cells.
 We will then use this phylogeny to improve our SNV calls.
 
-Neighbor joining is an aglomerative phylogeny building algorithm that assumes approximately additive evolutionary pairwise distances.
+Neighbor joining is an agglomerative phylogeny building algorithm that assumes approximately additive evolutionary pairwise distances.
 The edge lengths of a tree are additive if and only if "the distance between any pair of leaves is the sum of the lengths of the edges on the path connecting them"~\cite{BSA}.
-Neighbour joining finds pairs of neighboring nodes (initially single cells), connects them and then replaces the two with a new node representing the newly formed cluster.
+Neighbor joining finds pairs of neighboring nodes (initially single cells), connects them and then replaces the two with a new node representing the newly formed cluster.
 The distance between the new node and all remaining nodes can be computed using the assumption of additivity.
 
-Note that neighboring nodes are not necessarily those with the closest distance between them as this fails to join neighbours where one edge is short and the other is long~\cite{NJ, BSA}.
+Note that neighboring nodes are not necessarily those with the closest distance between them as this fails to join neighbors where one edge is short and the other is long~\cite{NJ, BSA}.
 Instead, a pair of nodes is selected to be joined in any iteration if they minimize the pairwise metric:
 \begin{equation}\label{eq:NJD}
     D_{ij} = d_{ij} - r_i - r_j
@@ -48,7 +48,7 @@ The neighbor joining algorithm is therefore as described below, using similar no
     \end{algorithmic}
 \end{algorithm}
 
-After the neighbour joining algorithm is complete, the tree can be rooted using the pseudo-cell that is homozygous reference with a probability of 1.
+After the neighbor joining algorithm is complete, the tree can be rooted using the pseudo-cell that is homozygous reference with a probability of 1.
 
 
 

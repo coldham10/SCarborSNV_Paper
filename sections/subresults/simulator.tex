@@ -8,10 +8,10 @@ At each generation the node has a fixed probability of acquiring a new point mut
 At each generation there is also a small probability that a chromosome will experience a LOH, in which case that chromosome will be marked as homozygous with one chromosome randomly chosen dropped from the homologous pair.
 This first stage is intended to model germline and clonal mutations.
 
-After a fixed number of generations, the node can still acquire SNVs and chromosomal abberations, but also has some chance of splitting into two nodes.
+After a fixed number of generations, the node can still acquire SNVs and chromosomal aberrations, but also has some chance of splitting into two nodes.
 In this eventuality, the first node is removed from the list active nodes, and the two new nodes are added.
 Hereafter at each generation each active node has a random chance of acquiring  a SNV, acquiring a ploidy change or branching.
-The descendents of a node both gain a copy of the parent's mutational history.
+The descendants of a node both gain a copy of the parent's mutational history.
 
 When the number of active cells increases to the desired number of cells, the active nodes are then `sequenced.'
 First each diploid chromosome has a random chance of experiencing allelic dropout, and a note is made of which chromosomes are lost.

@@ -17,7 +17,7 @@ This expectation value $\overline{p_{ab}}$ can be used to define a genetic dista
 Computing all pairwise distances between cells can be completed in $O(nm^2)$.
 
 An approximate phylogenetic tree of cells can be constructed using the agglomerative neighbor joining algorithm~\cite{BSA, NJ}.
-Inferring final cell genotypes from this phylogeny is acheived using a two-stage ``upwards-downwards" dynamic programming algorithm for each locus.
+Inferring final cell genotypes from this phylogeny is achieved using a two-stage ``upwards-downwards" dynamic programming algorithm for each locus.
 In the upwards stage, each branch of the tree is assigned a probability of a mutation occurring at that branch for this locus, using the posterior genotype probabilities of the cells on the leaves.
 Once the branches have been assigned marginal mutation probabilities, these probabilities can be propagated downwards from the root of the tree to return final phylogeny-aware genotype probabilities for all the cells in the leaves.
 \end{document}

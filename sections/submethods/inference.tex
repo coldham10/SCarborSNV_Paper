@@ -7,10 +7,10 @@ The approximate phylogeny was found by combing information from across the genom
 
 \subsubsection*{SNV weights}
 In the simplest case, we ignore any potential loss of heterozygosity.
-For each edge of the tree $e$, we seek to answer the following question: assuming there is a pont mutation at this locus, what is the probability it occurred at $e$?
+For each edge of the tree $e$, we seek to answer the following question: assuming there is a point mutation at this locus, what is the probability it occurred at $e$?
 
-To begin with, we compute the likelihood of all descendents of an edge in the tree having the same genotype.
-We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the likelihoods that all descendents of $e$ are homozygous reference, heterozygous and homozygous alternate.
+To begin with, we compute the likelihood of all descendants of an edge in the tree having the same genotype.
+We say that $\pi_0(e), \pi_1(e)$ and $\pi_2(e)$ are respectively the likelihoods that all descendants of $e$ are homozygous reference, heterozygous and homozygous alternate.
 
 These values are taken to be
 \begin{equation}
@@ -18,10 +18,10 @@ These values are taken to be
 \end{equation}
 where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$.
 $P(g_j = g)$ here are the probabilities calculated in Equation~\eqref{eq:posteriorgenotypes}.
-We also compute one more value, $\pi_\mu(e)$, defined as the likelihood that all descendents of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
-These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directy beneath each branch.
+We also compute one more value, $\pi_\mu(e)$, defined as the likelihood that all descendants of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
+These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directly beneath each branch.
 
-If an SNV occurred at edge $e$ in $T$, we would expect that all descendents of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
+If an SNV occurred at edge $e$ in $T$, we would expect that all descendants of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
 Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that the likelihood of this simplifies to:
 \begin{equation*}
     \prod_{c_x\succ e}P(g_x =1,2)\prod_{c_y\nsucc e} P(g_y = 0) = \pi_\mu(e)\frac{\pi_0(\rho)}{\pi_0(e)}
@@ -40,7 +40,7 @@ which is proportional to the posterior probability of attachment at $e$ up to a 
 This is because the ratio $\pi_\mu/\pi_0$ is as a likelihood, where the `observations' are the posterior probabilities from the last stage of the algorithm, and $\overline{p_e}$ is proportional to a prior for $e$, conditioned on the site being mutant and $T$.
 
 When we recurse up the tree computing $\pi_g$ values, we can also compute and store these weights $W(S_e)$.
-If we recursively sum the weights from the two childen of each node, at the root this sum value will equal the total sum of weights and we can thereafter derive the probabilities:
+If we recursively sum the weights from the two children of each node, at the root this sum value will equal the total sum of weights and we can thereafter derive the probabilities:
 \begin{equation} \label{eq:SNVattachP}
     P(S_e\,\mid\,SNV,\,T) = \frac{W(S_e)}{\sum_{e'}W(S_e)}
 \end{equation}
@@ -104,7 +104,7 @@ If we recursively sum the weights from the two childen of each node, at the root
     \label{fig:treecases2}
 \end{figure}
 
-The more complicated cases invlove both a SNV and a ploidy change occuring at the same locus.
+The more complicated cases involve both a SNV and a ploidy change occurring at the same locus.
 The four possible ways this can occur is shown in Figure~\ref{fig:treecases2}.
 
 For case 1, a point mutation occurred at edge $e_1$ before a ploidy change dropped the alternate allele at $e_2$.
@@ -131,7 +131,7 @@ The weight of attaching the SNV to $e_1$ and the LOH to $e_2\succeq e_1$ for cas
 \begin{equation}
     W^{(1)}(S_{e_1},\,L_{e_2}) = \frac{\pi_0(e_2)\pi_1(e_1)}{\pi_1(e_2)\pi_0(e_1)}\overline{p}_{e_1}\overline{p}_{e_2}
 \end{equation}
-This is proportional to a joint posterior probability, conditioned on several assumptions: both a SNV and LOH have occurred at the locus; the SNV was ancestral to the ploidy change and the loss of of heterozygosity dropped the alternate allele.
+This is proportional to a joint posterior probability, conditioned on several assumptions: both a SNV and LOH have occurred at the locus; the SNV was ancestral to the ploidy change and the loss of heterozygosity dropped the alternate allele.
 This weight can be converted into a joint attachment probability by normalizing over the pairs of edges for which $\{e_1,e_2\}\subset E-E_L$ and $e_1\preceq e_2$.
 
 The weights for cases 2 and 3 can be found using similar logic to be:
@@ -171,7 +171,7 @@ Case 3, however, is somewhat different, as we need to find the probability of an
 Again to return the true marginal probability these sums must be normalized sum over all valid pairs.
 
 The marginal probabilities here have so far assumed not only that there is a SNV and loss of heterozygosity at the locus, but also that their particular case is true.
-We established when determening prior probabilities for $\sigma$ that $P(\text{case }i\,\mid\,LOH,\,SNV) = 1/3$ for $i\in[0,3]$.
+We established when determining prior probabilities for $\sigma$ that $P(\text{case }i\,\mid\,LOH,\,SNV) = 1/3$ for $i\in[0,3]$.
 We take $P(LOH) = P(H)$ as an input parameter, and $P(SNV)$ for a locus can be given by the posterior distribution of $\sigma$ for the locus, where $P(SNV) = 1-P(\sigma=0)$.
 
 \subsubsection*{Upwards-Downwards Algorithm}
@@ -222,7 +222,7 @@ These are the last remaining value required to calculate all edge probabilities:
             \State Node.$\pi_\mu \gets P(g_j=1,\mid\,D_i) + P(g_j=2,\mid\,D_i)$
             \State Node.$\sum W(S_e) \gets$ Node.$W(S_e) \gets \text{Node.}\pi_\mu\div \text{Node.}\pi_0\times\text{Node.}\overline{p}$ 
             \State Node.aux0 $\gets$ Node.$\pi_2\div\text{Node.}\pi_0\times\text{Node.}\overline{p}$
-            \State Node.$\sum\text{aux0}\gets 0$\Comment{Auxillary partial sum for calculating probabilities}
+            \State Node.$\sum\text{aux0}\gets 0$\Comment{Auxiliary partial sum for calculating probabilities}
         \Else
             \State \Call{FillUpwards}{Child 1}\Comment{Recursive calls first}
             \State \Call{FillUpwards}{Child 2}
@@ -254,7 +254,7 @@ These are the last remaining value required to calculate all edge probabilities:
 \end{algorithm}
 
 
-The upwards-downwards agorithm prepares the tree at each candidate locus for a final dynamic programming approach to call the final genotypes.
+The upwards-downwards algorithm prepares the tree at each candidate locus for a final dynamic programming approach to call the final genotypes.
 
 \subsubsection*{Genotyping Cells}
 %TODO got to keep a running probability of case 3, separate from genotype probs. prob of 2 from 0 = p(S_e)*(sum(P(case 3 ancestral))+case2 at e)

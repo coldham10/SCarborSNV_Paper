@@ -28,22 +28,22 @@ At the least, SCarborSNV has shown that much faster SCS inference is possible th
 
 \subsection{Parallelization}
 While not yet implemented, SCarborSNV can be optimally parallelized for most of the stages of the algorithm.
-For the determination of cell genotype likelihoods all sites are considered completely independentally, and therefore all $n$ of these computations could easily be done on multiple processors.
+For the determination of cell genotype likelihoods all sites are considered completely independently, and therefore all $n$ of these computations could easily be done on multiple processors.
 After the quick pre-computation of $\sigma$ priors, the stages of SCarborSNV before tree building could be optimally parallelized on up to $n$ CREW PRAM processors.
 
 The neighbor joining stage of SCarborSNV may not be as straightforward to parallelize nor optimal, but since the tree reconstruction only needs to occur once it is unlikely that continuing to execute this part sequentially will impose a major slowdown for the overall program.
 
-For the last stage of upwards-downwards genotype inference we again treat sites independentally, and again we could optimally parallelize this section for up to $n'$ processors, where $n'$ is the number of candidate loci.
+For the last stage of upwards-downwards genotype inference we again treat sites independently, and again we could optimally parallelize this section for up to $n'$ processors, where $n'$ is the number of candidate loci.
 
-Furthermore, SCarborSNV is implemented in C with only standard libraries, and therefore parallel implementaion using POSIX threads is possible without too much modification to the existing program structure.
+Furthermore, SCarborSNV is implemented in C with only standard libraries, and therefore parallel implementation using POSIX threads is possible without too much modification to the existing program structure.
 
 \subsection{Potential improvements: EM, GCNs and maximum likelihood}
 A potential improvement to the SCarborSNV algorithm would be to include phylogeny building and genotyping in an EM-like loop.
 At the stage of the upwards-downwards genotype inference algorithm, the probability of an LOH event, clonal mutation, allelic dropout and other events could be stored.
-These calls of various data artifacts or biological events could be used to reestimate intial parameters for successively more accurate calls.
+These calls of various data artifacts or biological events could be used to re-estimate initial parameters for successively more accurate calls.
 
-Different approaches for such parameter reestimation would need to be explored.
-Since SCarborSNV is reliant on several initial global parameters such as somatic mutation frequency, these initial parameters could be reestimated and the whole program could be run again.
+Different approaches for such parameter re-estimation would need to be explored.
+Since SCarborSNV is reliant on several initial global parameters such as somatic mutation frequency, these initial parameters could be re-estimated and the whole program could be run again.
 Another method may be to store the phylogenetically inferred posterior genotypes for each cell at each locus and then use these values to recompute pairwise distances to rebuild the approximate phylogeny.
 Some combination of these iterative methods could also be used.
 If one or a fixed number of iterations of this step were applied, SCarborSNV would maintain quadratic time complexity in the number of cells and at worst experience linear slowdown.
@@ -60,12 +60,12 @@ Even if not ultimately used to call genotypes, such maximum likelihood estimates
 \subsection{Robustness}
 Currently SCarborSNV is quite robust and can handle unknown nucleotides, indels and some missing data.
 If there is some pair of cells in a dataset that share no overlapping sequenced loci with each other, then a pairwise distance between these cells cannot be computed.
-Since all pairwise distances are needed for the neighbour joining algorithm this causes SCarborSNV to fail.
+Since all pairwise distances are needed for the neighbor joining algorithm this causes SCarborSNV to fail.
 For normal sequencing data of whole genomes or whole exomes this should be a rare occurrence, however there are potential ways to handle this case.
 For example, there are iterative methods to approximately impute missing pairwise distances from a partial distance matrix~\cite{missingNJ}.
 
 \subsection{Conclusion}
-Single cell DNA sequencing is in its infancy, but it shows great promsie to accurately resolve somatic genetic heterogeneity, including intra-tumor heterogeneity.
+Single cell DNA sequencing is in its infancy, but it shows great promise to accurately resolve somatic genetic heterogeneity, including intra-tumor heterogeneity.
 Since the genetic diversity of competing subclones in a tumor allow it to evolve, ITH is a direct cause of treatment resistance in cancer~\cite{metastatic, merlo2006cancer, greaves2012clonal}.
 As SCS data become cheaper and more available, the ability to analyze more of these data is increasingly important for research and individualized therapy.
 While tools such as Sci$\Phi$ and Monovar have proved invaluable for SCS analysis, their complexity ultimately will limit the size of SCS datasets that can be analyzed.
