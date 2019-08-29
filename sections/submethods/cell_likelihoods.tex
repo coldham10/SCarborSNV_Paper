@@ -21,7 +21,7 @@ For any particular read and associated read error probability, we first marginal
 \end{equation*}
 Since errors can occur during amplification or sequencing, we model the result of amplification as a latent ``intermediate allele", denoted $\beta$.
 This random variable follows a discrete, symmetric, four-point distribution that assumes a constant probability of amplification error for any base, and equal probability of amplifying either allele in the heterozygous case~\cite{monovar}.
-This probability of amplification error is an input parameter for SCarborSNV, with a default value of 0.002.
+The probability of amplification error is an input parameter for SCarborSNV, with a default value of 0.002.
 If a read is not the result of a sequencing error:
 \begin{equation*}
     P(r_k,\,\neg se \mid g) = P(r_k\mid \neg se ,\, g)(1-e_k)=P(\beta_k=r_k\mid g)(1-e_k) 
@@ -52,7 +52,7 @@ Finally the likelihood $P(d_{ij}\mid g)$ for cell at a locus for a homozygous ge
      P(d_{ij}\mid g) = \prod_{k=1}^l \left[ (1-e_k)P(\beta_k=r_k\mid g) + e_k \frac{1}{3} (1-P(\beta_k=r_k\mid g)) \right]
 \end{equation}
 This equation is used for the homozygous cases $g\in\{0,2\}$.
-This is somewhat more simple than the heterozygous case because an allelic dropout at a homozygous locus would not have a detectable effect on the read values.
+This is somewhat more simple than the heterozygous case because an allelic dropout at a homozygous locus would not have a detectable effect on the read values and is therefore not considered.
 
 \subsubsection*{Heterozygous genotypes and allelic dropout}
 For the case where the underlying genotype is heterozygous, $g=1$, we must account for the possibility of an allelic dropout (ADO) event~\cite{monovar,sciphi}.

@@ -4,7 +4,7 @@
 \begin{document}
 Early DNA sequencing methods could only read relatively short DNA sequences less than 1000 bases.
 Location-specific primers could be used to amplify such small subsequences from a longer sequence in vitro, but the process was expensive and time-consuming.
-High throughput sequencing (HTS, also called next generation sequencing or NGS) on the other hand amplifies the whole original sequence many times before breaking it down into small overlapping subsequences.
+On the other hand, high throughput sequencing (HTS, also called next generation sequencing or NGS) amplifies the whole original sequence many times before breaking it down into small overlapping subsequences.
 This multitude of short fragments is sequenced in parallel, often resulting in billions of base reads per run~\cite{sequencesequencers}.
 These short subsequences are later reassembled in silico.
 This massively parallel shotgun approach of HTS has proved far faster and cheaper than other methods, as well as being highly accurate (depending on how many short reads cover a given site)~\cite{massivelyparallel}.
@@ -14,8 +14,9 @@ The standard and until recently only approach for HTS is to extract the DNA from
 This method will hereafter be referred to as bulk sequencing, as the genetic material is extracted from a bulk tissue sample (as opposed to from individual cells)~\cite{SCSadvance}.
 Bulk sequencing is very common practice, requires no specialized technology to separate cells, and often achieves a high level of calling accuracy with a high read depth (many reads mapped to each locus).
 Because of this bulk HTS data has been used to reconstruct tumor phylogenies, for example by ClonEvol.
-At each locus, the proportion of reads containing mutant reads is used as an ersatz for the number of mutant cells.
-These values can be used to discover clusters of mutations with similar frequencies, and potential orderings or phylogenies of these mutations can be evaluated based on how likely it is each cluster descends from the others~\cite{clonevol}.
+At each locus, the proportion of reads containing mutant reads is used as an ersatz for the proportion of mutant cells.
+These values can be used to discover clusters of mutations with similar frequencies. 
+Potential orderings or phylogenies of these mutations can be evaluated based on how likely it is that each cluster descends from the others~\cite{clonevol}.
 
 The hierarchy of subclones is difficult to accurately resolve from bulk methods, however, and rare subclones can often be lost.
 To resolve ITH more directly, trace cell lineages, understand rare tumor cell populations and measure mutation rates, the genotype of individual cells must be examined~\cite{onecelltime}.

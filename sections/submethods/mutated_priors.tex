@@ -35,12 +35,12 @@ T(\alpha,\beta)=\frac{\binom{\alpha}{\beta}^2}{(2\beta-1)\binom{2\alpha}{2\beta}
 \end{equation}
 Note that the prefactor of $\frac{2m-1}{2(m-1)}$ modifies the original prior so as to exclude clonal mutations in this case.
 
-Now let us consider the case where both a sSNV and a haploid event have both occurred at a locus. Since the haploid mutation may have occurred in the subtree or ancestral to the subtree, we model these cases separately.
+Now let us consider the case where both a sSNV and a haploid event have both occurred at a locus. Since the haploid mutation may have occurred within the subtree or ancestral to the subtree, we model these cases separately.
 \begin{equation}
 P(\sigma\mid\text{SNV}_T,H) = P(\sigma\mid\text{SNV}_T,H_T)P(H_T\mid H) + P(\sigma\mid\text{SNV}_T,H,\neg H_T)(1-P(H_T\mid H)) \label{eq:SNVT}
 \end{equation}
 \subsubsection*{SNV and loss of heterozygosity within the subtree}
-In the first scenario described by Equation~\eqref{eq:SNVT} both a point mutation and a ploidy change have occurred within the sequenced subtree.
+In the scenario described by the first term of Equation~\eqref{eq:SNVT} both a point mutation and a ploidy change have occurred within the sequenced subtree.
 This can be split into four further subcases:
 
 \begin{figure}[h]\label{fig:treecases}
@@ -97,15 +97,15 @@ This can be split into four further subcases:
 	\end{subfigure}
 	
 	\caption{SNV and haploid event both within the subtree.
-    (a) Point mutation happens before haploid event and mutated allele is dropped.
-    (b) Point mutation happens before haploid event and reference allele is dropped.
-    (c) Haploid event occurs before point mutation.
+    (a) The point mutation happens before the haploid event and the mutated allele is dropped.
+    (b) The point mutation happens before the haploid event and the reference allele is dropped.
+    (c) The haploid event occurs before the point mutation.
     Since haploid cells are modelled as becoming homozygous diploids, this case leads to only even values of alternate allele count.
     (d) In this case the point mutation and haploid event do not occur in the same lineage.
     We ignore this case as the haploid event does not affect the alternate allele count.}
 \end{figure}
 Considering the above three cases where a ploidy change in the subtree affects the locus alternate allele count, it is twice as likely that the point mutation should occur before the haploid event (cases 1 and 2), compared with the other temporal ordering (case 3).
-This is because the cells before a haploid event, being diploid, have twice the chance of having a point mutation at a locus than the haploid descendants of such a mutation.
+This is because the cells before a haploid event, being diploid, have twice the chance of having a point mutation at a locus than the haploid descendants of such a ploidy change.
 We are here assuming that there is a constant probability of a point mutation per base pair per unit time.
 Therefore $P(\text{case 1 or 2})=2/3$ and $P(\text{case 3})=1/3$.
 
@@ -131,7 +131,7 @@ P(\sigma\mid\text{case 2}) = \frac{2m-1}{2(m-1)}\sum_{\alpha+h=\sigma}T(m,\alpha
 \end{equation*}
 For case 2, the support is [2,\,2m-2].
 In case 3, only even allele counts can be produced as all cells carrying the point mutation are haploid, which we model as being homozygous mutated.
-The possible values of $\sigma$ are $1\leq\sigma\leq 2m-2$.
+The possible values of $\sigma$ are $2\leq\sigma\leq 2m-2$.
 \begin{equation*}
 P(\sigma\mid\text{case 3}) = \frac{2m-1}{2(m-1)}\sum_{2a=\sigma} T(m,h)T(h,a) \qquad 1\leq h < m,\; h\geq a
 \end{equation*}
@@ -166,7 +166,7 @@ P(\text{ancestral}\mid \text{subclonal}) = \int_f P(\text{all in subclone}\mid f
 \end{equation}
 For large enough samples ($m>30$) the probability that all cells were sampled from a single subclone (Equation~\ref{eq:tmids}) becomes negligible.
 Since it is only a function of $m$ these values are pre-computed for efficiency.
-The empirically estimated probability that any given mutation is clonal is set at $P(\text{clonal})=0.51$ (see appendix A)~\cite{21breasts, metastatic, yachida}.
+The empirically estimated probability that any given mutation is clonal is set at $P(\text{clonal})=0.51$~\cite{21breasts, metastatic, yachida}.
 Having developed the probability that any given somatic mutation is ancestral to all sampled cells, we have also found the probability that a mutation has occurred within the sampled subtree.
 \begin{equation*}
 P(\text{SNV}_T\mid\text{sSNV})=P(H_T\mid H)=1-P(\text{ancestral}\mid\text{sSNV})
@@ -183,10 +183,10 @@ If there is no haploid event, there will be no LOH and the ancestral sSNV will b
 P(\sigma\mid\text{sSNV},\,\neg\text{SNV}_T,\,\neg H) = \begin{cases}1\quad \sigma=m\\ 0\quad\text{else}\end{cases}
 \end{equation*}
 In the case of a haploid event, we must consider the cases where the whole subtree is haploid and when the haploid event happens within the subtree.
-We also consider the alternate and reference alleles to be dropped with equal probability as above.
+We also consider the alternate and reference alleles to be dropped with equal probability as before.
 \begin{align*}
 P(\sigma\mid\text{sSNV},\,\neg\text{SNV}_T,\,H)=&(1-P(H_T\mid H))P(\sigma\mid \text{sSNV},\,\neg\text{SNV}_T,\,H,\,\neg H_T)\\
-&+P(H_T\mid H)P(\sigma\mid H_T,\,\text{SNV},\,\neg\text{SNV}_T)
+&+P(H_T\mid H)P(\sigma\mid \text{sSNV},\,\neg\text{SNV}_T,\,H_T)
 \end{align*}
 If both the somatic SNV and the haploid event are ancestral to the sequenced subtree, the cells will either all be haploid reference or all be haploid alternate with equal probability.
 Since we model haploid cells as homozygous diploid this results in only alternate allele counts of $0$ or $2m$.

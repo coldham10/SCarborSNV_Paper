@@ -17,7 +17,7 @@ Neighbor-joining is an agglomerative algorithm for constructing unrooted phyloge
 The closest taxa (in this case cells) are joined as neighbors, and the distance between this new cluster and all other taxa is computed by assuming that the evolutionary distances are approximately additive~\cite{BSA}.
 This process is repeated, replacing neighboring taxa with a new node representing their cluster until all taxa are joined in a phylogeny.
 
-To compute the pairwise evolutionary distance between two cells we first find the expected frequency of different alleles between them and then convert this frequency into a more approximately additive distance resembling the Jukes-Cantor distance~\cite{JC, BSA}.
+To compute the pairwise evolutionary distance between two cells we first find the expected frequency of differing alleles between them and then convert this frequency into a more approximately additive distance resembling the Jukes-Cantor distance~\cite{JC, BSA}.
 
 The asymptotic time complexity of the core neighbor joining algorithm is $O(m^3)$.
 However, only computing the pairwise distances involves scanning through the entire genome, and the neighbor joining itself only needs to be completed once.

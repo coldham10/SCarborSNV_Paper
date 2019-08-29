@@ -19,10 +19,10 @@ These values are taken to be
 where $c_j\succ e$ indicates that the $j^{th}$ cell is below $e$ in $T$.
 $P(g_j = g)$ here are the probabilities calculated in Equation~\eqref{eq:posteriorgenotypes}.
 We also compute one more value, $\pi_\mu(e)$, defined as the likelihood that all descendants of $e$ have a genotype of either 1 or 2, that is to say they are mutant.
-These four values can be computed recursively in $O(m)$ time by multiplying the corresponding values from the two branches directly beneath each branch.
+These four values can be computed recursively at each locus in $O(m)$ time by multiplying the corresponding values from the two branches directly beneath each branch.
 
 If an SNV occurred at edge $e$ in $T$, we would expect that all descendants of $e$ would have genotypes of 1 or 2, while all other cells would have genotype 0 (assuming infinite sites).
-Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that the likelihood of this simplifies to:
+Letting $\rho$ be the edge ancestral to all sampled cells, it is easy to verify that this likelihood simplifies to:
 \begin{equation*}
     \prod_{c_x\succ e}P(g_x =1,2)\prod_{c_y\nsucc e} P(g_y = 0) = \pi_\mu(e)\frac{\pi_0(\rho)}{\pi_0(e)}
 \end{equation*}

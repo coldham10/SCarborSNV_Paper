@@ -1,15 +1,15 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
-The mathematical outline for calling SNVs is as follows.
+SCarborSNV's mathematical outline for calling SNVs is as follows.
 We begin by considering the total alternate allele count at any given locus, $\sigma\in [0,2m]$, which represents the sum over all cells of the number of non-reference alleles at the locus~\cite{monovar, listatistical}.
 For a locus, we can compute the prior probability $P(\sigma)$ by considering various possible mutation histories and incorporating constants such as the expected frequency of somatic mutations ($\lambda$).
 
-Next, we consider the likelihood of individual alternate allele count ($g$) on a per-cell basis: $P(d_{ij}\,\mid\,g)$.
+Next, we consider the likelihood of individual alternate allele count ($g$) on a per-cell basis: $P(d_{ij}\,\mid\,g)$, where $d_{ij}$ is the sequencing data at site $i$ for cell $j$.
 Using the prior distribution $P(\sigma)$ and the cell likelihoods $P(d_{ij}\,\mid\,g)$, we use a dynamic programming algorithm to determine the posterior probability $P(\sigma\,\mid\,D_i)$ for each locus in $O(nm^2)$ time~\cite{monovar, ledurbin, listatistical}.
-At this stage we can exclude loci from further consideration for which $P(\sigma = 0\,\mid\, D_i)$ is very high.
+At this stage we can exclude loci from further consideration for which $P(\sigma = 0\,\mid\, D_i)$ is high.
 
-Having found the probability distribution for $\sigma$ at each site using information from across all cells, we use this in a simple binomial model to gain locus-specific priors for individual cell genotypes.
+Having found the posterior probability distribution for $\sigma$ at each site using information from across all cells, we use this in a simple binomial model to gain locus-specific priors for individual cell genotypes.
 Using these priors and the cell genotype likelihoods we quickly find a posterior probability on individual cell genotypes, $P(g_{ij}\,\mid\, D_i)$ from a weighted sum over the $\sigma$ distribution at each locus.
 
 Using these posterior probability distributions of $g$ for each cell at each locus, we define a new quantity $\overline{p_{ab}}$ that corresponds to the expected frequency with which alleles from cell $a$ will differ from those from cell $b$.

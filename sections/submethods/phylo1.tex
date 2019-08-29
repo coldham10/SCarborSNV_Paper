@@ -6,7 +6,7 @@ From the matrix of pairwise evolutionary distances $d$ we can now build a single
 We will then use this phylogeny to improve our SNV calls.
 
 Neighbor joining is an agglomerative phylogeny building algorithm that assumes approximately additive evolutionary pairwise distances.
-The edge lengths of a tree are additive if and only if "the distance between any pair of leaves is the sum of the lengths of the edges on the path connecting them"~\cite{BSA}.
+The edge lengths of a tree are additive if and only if ``the distance between any pair of leaves is the sum of the lengths of the edges on the path connecting them"~\cite{BSA}.
 Neighbor joining finds pairs of neighboring nodes (initially single cells), connects them and then replaces the two with a new node representing the newly formed cluster.
 The distance between the new node and all remaining nodes can be computed using the assumption of additivity.
 
@@ -48,7 +48,7 @@ The neighbor joining algorithm is therefore as described below, using similar no
     \end{algorithmic}
 \end{algorithm}
 
-After the neighbor joining algorithm is complete, the tree can be rooted using the pseudo-cell that is homozygous reference with a probability of 1.
+After the neighbor joining algorithm is complete, the tree can be rooted using the pseudo-cell outgroup that is homozygous reference with a probability of 1.
 
 
 

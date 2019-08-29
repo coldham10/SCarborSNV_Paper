@@ -6,18 +6,18 @@ As opposed to bulk sequencing, where the DNA from a large number of cells is agg
 After separating out individual cells, there are two methods of analyzing the genetic material therefrom: single cell RNA sequencing (scRNA-seq) and single cell DNA sequencing (SCS), each method with its own advantages and disadvantages.
 The more common scRNA-seq first forms co-DNA from the mRNA present in the cell transcribed from its DNA, before amplifying this co-DNA and sequencing it~\cite{rnaseq}.
 The advantage of scRNA-seq is that mRNA is abundant in cells, making amplification and sequencing reliable with less noise introduced from over amplification and less chance of the amplification process missing key molecules~\cite{SCSadvance, onecelltime}.
-scRNA-seq, however is limited by the fact that it only analyzes the transcriptome - it only provides information on the exome and is influenced by transcription regulation and cell processes such as apoptosis and mRNA processing\cite{cellity, biochemistry}.
+scRNA-seq, however is limited by the fact that it only analyzes the transcriptome - it only provides information from the exome and is influenced by transcription regulation and cell processes such as apoptosis and mRNA processing\cite{cellity, biochemistry}.
 
 Single cell (or single nucleus) DNA sequencing, on the other hand, allows the whole genome of each cell to be amplified and sequenced directly.
 Since for each locus on a autosomal (diploid) chromosome only two molecules of DNA are present in each cell, however, the amplification process can lead to significant noise and erroneous artifacts in the data.
 Staring from only two (or one) molecules of DNA, the amplification process must go through many iterations (with more chance of error at each) and amplification errors at earlier iterations may overwhelm the amplified result.
-This can lead to various false-positive (FP) and false negative (FN) errors in the final sequencing data, with mutations observed from welltype DNA or conversely mutant DNA being sequenced as welltype.
+This can lead to various false-positive (FP) errors (with mutations observed from welltype DNA) and false negative (FN) errors (with mutant DNA sequenced as welltype) in the final sequencing data.
 
 Furthermore, in the case of autosomal diploid chromosomes, a further artifact known as allelic dropout (ADO) may be introduced in the SCS process.
 For a heterozygous locus on such a chromosome, only one of the pair of DNA molecules may be amplified leading to the locus being read as homozygous.
 If neither molecule succeeds in being amplified, there may be gaps the size of whole chromosomes in the resultant data~\cite{monovar, sciphi, SCSadvance}.
 
-Despite the FP and FN errors, as well as ADO artifacts and uneven coverage, the advantage of DNA SCS to potentially sequence the entire genome of single cells has proven a useful tool for analyzing genetic mutations at a per-cell basis.
+Despite the FP and FN errors, as well as ADO artifacts and uneven coverage, the advantage of DNA SCS to potentially sequence the entire genome of single cells has proven a useful tool for analyzing genetic mutations on a per-cell basis.
 Algorithms analyzing such SCS data, however, must account for this distinct error profile and treat the data with appropriate flexibility~\cite{monovar, sciphi}.
 
 \end{document}

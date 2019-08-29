@@ -2,17 +2,17 @@
 
 \begin{document}
 The most accurate phylogenetic structure of the sampled tumor cells could be found by searching through the entire tree space and finding a tree that maximizes likelihood or posterior probability.
-If $s$ candidate sites are called in the previous step there are $(2m-3)!!(2m-1)^s$ trees in the search space making this approach infeasible, leading a previous phylogeny aware approach to adopt a more efficient Markov chain Monte Carlo (MCMC) algorithm~\cite{sciphi}.
-This more efficient approach results in an overall asymptotic complexity of $O(nm^3\log(m))$~\cite{sciphi}.
-The Monovar algorithm has an overall asymptotic complexity of $O(nm^3)$~\cite{monovar}.
+If $s$ candidate sites are called in the previous step there are $(2m-3)!!(2m-1)^s$ trees in the search space, making this approach infeasible and leading a previous phylogeny aware approach to adopt a more efficient Markov chain Monte Carlo (MCMC) algorithm~\cite{sciphi}.
+This more efficient approach results in an overall asymptotic time complexity of $O(nm^3\log(m))$~\cite{sciphi}.
+The Monovar algorithm has an overall asymptotic time complexity of $O(nm^3)$~\cite{monovar}.
 
-Seeking a more efficient phylogeny-aware method for single nucleotide variant calling, SCarborSNV uses a neighbor-joining algorithm to infer a cell phylogeny based on estimated pairwise evolutionary distances between cells.
-This approach has an asymptotic complexity of $O(nm^2+m^3)$, and so especially for data sets with many cells we expect it will yield results faster even than Monovar.
+Seeking a more efficient phylogeny-aware method for single nucleotide variant calling, SCarborSNV uses a neighbor-joining algorithm to infer an approximate cell phylogeny based on estimated pairwise evolutionary distances between cells.
+This approach has an asymptotic complexity of $O(nm^2+m^3)$, and so especially for data sets with many cells we expect it will yield results much faster even than Monovar.
 
 So far at each locus we have calculated a posterior distribution over the alternate allele count: $P(\sigma\,\mid\,D_i)$.
 To compute pairwise distances between cells we need posterior genotype probabilities for each cells genotype, considering the pooled information from all cells at the locus.
 
-Monovar achieves this with a second dynamic programming algorithm that jointly considers the probability of cell $j$ havening genotype $g$ and the remaining $m-1$ cells having an alternate allele count of $\sigma - g$.
+Monovar achieves this with a second dynamic programming algorithm that jointly considers the probability of cell $j$ having genotype $g$ and the remaining $m-1$ cells having an alternate allele count of $\sigma - g$.
 Even with the increased efficiency of Monovar's second dynamic programming algorithm it still has a time complexity of $O(nm^3)$.
 Trading some accuracy for efficiency we instead use a simple binomial model to compute intermediate posterior cell genotype probabilities. 
 The final SNV calling will be done after inferring phylogeny-aware genotype probabilities.
@@ -38,9 +38,10 @@ Next we compute an approximately additive distance inspired by the Jukes-Cantor 
 \begin{equation}
     d_{ab} = -\frac{3}{4}\log \left(1-\frac{4}{3}\,\overline{p}_{ab}\right)
 \end{equation}
-Included with the biological cells is a false cell with reference genotype which is included as an outgroup to root the tree.
+Included with the biological cells is a false cell with homozygous reference genotype which is included as an outgroup to root the tree.
 After computing $d$ for all pairs of cells, we implement a simple neighbor-joining algorithm based thereupon.
 
-At this stage also we threshold loci for which $P(\sigma \mid D) < 0.5)$ and save these as candidate loci for later genotyping.
+At this stage also we threshold loci on $P(\sigma = 0 \mid D)$.
+By default, if $P(\sigma = 0 \mid D)<0.5$ we save a locus as a candidate for later genotyping.
 By only considering these loci with a high probability of mutation we further increase the efficiency of this method.
 \end{document}
