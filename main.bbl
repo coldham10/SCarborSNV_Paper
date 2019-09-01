@@ -204,6 +204,35 @@ Vladimir Makarenkov and Fran{\c{c}}ois-Joseph Lapointe.
   incomplete distance matrices.
 \newblock {\em Bioinformatics}, 20(13):2113--2121, 2004.
 
+\bibitem{samtools}
+Heng Li, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor
+  Marth, Goncalo Abecasis, and Richard Durbin.
+\newblock The sequence alignment/map format and samtools.
+\newblock {\em Bioinformatics}, 25(16):2078--2079, 2009.
+
+\bibitem{gatk1}
+Mark~A DePristo, Eric Banks, Ryan Poplin, Kiran~V Garimella, Jared~R Maguire,
+  Christopher Hartl, Anthony~A Philippakis, Guillermo Del~Angel, Manuel~A
+  Rivas, Matt Hanna, et~al.
+\newblock A framework for variation discovery and genotyping using
+  next-generation dna sequencing data.
+\newblock {\em Nature genetics}, 43(5):491, 2011.
+
+\bibitem{gatk2}
+Geraldine~A Van~der Auwera, Mauricio~O Carneiro, Christopher Hartl, Ryan
+  Poplin, Guillermo Del~Angel, Ami Levy-Moonshine, Tadeusz Jordan, Khalid
+  Shakir, David Roazen, Joel Thibault, et~al.
+\newblock From fastq data to high-confidence variant calls: the genome analysis
+  toolkit best practices pipeline.
+\newblock {\em Current protocols in bioinformatics}, 43(1):11--10, 2013.
+
+\bibitem{DATA}
+Yong Wang, Jill Waters, Marco~L Leung, Anna Unruh, Whijae Roh, Xiuqing Shi, Ken
+  Chen, Paul Scheet, Selina Vattathil, Han Liang, et~al.
+\newblock Clonal evolution in breast cancer revealed by single nucleus genome
+  sequencing.
+\newblock {\em Nature}, 512(7513):155, 2014.
+
 \bibitem{sciclone}
 Christopher~A Miller, Brian~S White, Nathan~D Dees, Malachi Griffith, John~S
   Welch, Obi~L Griffith, Ravi Vij, Michael~H Tomasson, Timothy~A Graubert,

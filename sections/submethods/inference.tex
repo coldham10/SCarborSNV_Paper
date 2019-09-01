@@ -46,7 +46,7 @@ If we recursively sum the weights from the two children of each node, at the roo
 \end{equation}
 
 
-\subsubsection*{Weights For Loss of Heterozygosity}
+\subsubsection*{Weights for loss of heterozygosity}
 
 \begin{figure}[H]
 	\centering
@@ -143,7 +143,7 @@ The weights for cases 2 and 3 can be found using similar logic to be:
 \end{equation}
 although $W^{(3)}$ has the slightly different domain for normalization: $e_2\in E-L,\,e_1\in E$ and of course $e_1\succeq e_2$.
 
-\subsubsection*{Marginal Probabilities of Ploidy Change}
+\subsubsection*{Marginal probabilities of ploidy change}
 
 For cases 1 and 2, it will be useful to answer the following question at each edge: assuming there is a case $i$ event at this locus and a SNV has already been observed ancestral to this edge, what is the probability that a LOH event will happen at this edge?
 Let us assume that an SNV occurs at this locus and that a case 1 loss of heterozygosity also definitely occurs.
@@ -174,7 +174,7 @@ The marginal probabilities here have so far assumed not only that there is a SNV
 We established when determining prior probabilities for $\sigma$ that $P(\text{case }i\,\mid\,LOH,\,SNV) = 1/3$ for $i\in[0,3]$.
 We take $P(LOH) = P(H)$ as an input parameter, and $P(SNV)$ for a locus can be given by the posterior distribution of $\sigma$ for the locus, where $P(SNV) = 1-P(\sigma=0)$.
 
-\subsubsection*{Upwards-Downwards Algorithm}
+\subsubsection*{Upwards-downwards algorithm}
 The na\"ive approach for calculating these values would be to visit each edge in a tree traversal and from each edge retrieve all the values required from its ancestors or descendants.
 If we consider $P^{(3)}(S_{L_e\,\mid\neg S_{\prec e}})$, however, at each edge $e$ we require the joint probability $P^{(3)}(S_{e'},\,L_e)$ using values from all the descendants of $e$ as well as a product of probabilities from all the ancestors of $e$.
 The na\"ive approach has a total time complexity of $O(nm^2)$ which does not asymptotically increase the complexity of SCarborSNV, but nonetheless there is a more efficient algorithm using a dynamic programming approach.
@@ -256,7 +256,7 @@ These are the last remaining value required to calculate all edge probabilities:
 
 The upwards-downwards algorithm prepares the tree at each candidate locus for a final dynamic programming approach to call the final genotypes.
 
-\subsubsection*{Genotyping Cells}
+\subsubsection*{Genotyping cells}
 %TODO got to keep a running probability of case 3, separate from genotype probs. prob of 2 from 0 = p(S_e)*(sum(P(case 3 ancestral))+case2 at e)
 With all of these values computed for each of the edges in the tree, we can use a dynamic programming algorithm to genotype the cells. We complete a depth first traversal of the tree keeping track of genotype probabilities at every node. We also keep track of the probability $P(L_{\preceq e}^{(3)})$ that a silent case 3 haploid event has occured ancestral to each node. The initial conditions for the root node are the genotype probabilities $P(g=0)=1$ and $P(g=1)=P(g=2)$ and $P(L_{\preceq \rho}^{(3)}) = 0$. Let $n_1$ be the direct ancestor of $n_2$ such that $n_1$ and $n_2$ are joined by $e$ and have genotypes $g_1$ and $g_2$ respectively. Therefore we define the relations:
 %TODO write these including P(SNV) and P(LOH)

@@ -23,7 +23,13 @@ Since the simulator design for our tests was much more rudimentary than that use
 Based on the 10-cell results, the tree reconstruction accuracy of SCarborSNV was similar to that of Sci$\Phi$.
 This suggests that even if the method of inferring genotypes from a reconstructed tree could be improved, the tree building itself is likely to be sufficiently accurate to infer unread genotypes despite the massively reduced time to infer the tree  when compared to Sci$\Phi$.
 
-On the whole, SCarborSNV has proved to be a very promising tool for fast discovery of mutations from SCS data.
+The results from real data were somewhat more disappointing.
+Although SCarborSNV called almost all the sites called by the other two tools, it also called very many sites not called by the other two tools.
+It seems that while SCarborSNV has just as good if not better recall than the other two tools, the precision may be significantly lower on real data.
+There is no way to discern how many of these extra reads were real mutations and how many were false positives, and in simulation SCarborSNV did regularly find bona fide mutations that the others did not.
+More work is needed to examine the effect of initial settings and parameters of SCarborSNV to reduce sensitivity while maintaining high recall.
+
+On the whole, given the massively improved complexity, SCarborSNV has proved to be a very promising tool for fast discovery of mutations from SCS data.
 At the least, SCarborSNV has shown that much faster SCS inference is possible than by current tools.
 
 \subsection{Parallelization}
