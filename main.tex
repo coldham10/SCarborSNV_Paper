@@ -20,9 +20,18 @@
 \begin{document}
 \nocite{*}
 
+\pagenumbering{roman}
+
 \subfile{titlepage}
 \doublespacing
+\setcounter{page}{2}
 \subfile{sections/abstract}
+
+\tableofcontents
+
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
 
 \section{Introduction}
 \subfile{sections/introduction}
